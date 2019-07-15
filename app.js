@@ -8,45 +8,65 @@ var db = {
     games: {
         "arc-2": {
             title: "Arc 2",
-            desc: `Endless Arcade Game. You may need to press A+D (AT THE SAME TIME) for the game to actually start. The goal of the game is to get the highest score. To gain score, collect purple squares or clear a stage by hitting a pink square. You have two minutes to get as many points and stage clears as possible. To submit your score (only if using the CDT branch - currently), type your name in the box below the main player and hit "Submit High Score".`
+            desc: `Endless Arcade Game. You need to press A+D (at the same exact time) for the game to actually start. The goal of the game is to get the highest score. To gain score, collect purple squares or clear a stage by hitting a pink square. You have two minutes to get as many points and stage clears as possible. To submit your score (only if using the CDT branch - currently), type your name in the box below the main player and hit "Submit High Score".`,
+            lastUpdated: 1563202271,
+            platforms: {
+                web: {
+                    versions: {
+                        "v1.0.2-CDT": {}
+                    }
+                }
+            }
         },
         "arc-plat": {
-            title: "Arc Plat"
+            title: "Arc Plat",
+            lastUpdated: 1563202271
         },
         "carai": {
-            title: "CarAI"
+            title: "CarAI",
+            lastUpdated: 1563202271
         },
         "dig-it": {
-            title: "Dig It"
+            title: "Dig It",
+            lastUpdated: 1563202271
         },
         "tetris": {
-            title: "Tetris"
+            title: "Tetris",
+            lastUpdated: 1563202271
         },
         "the-giver-the-game": {
-            title: "The Giver - The Game"
+            title: "The Giver - The Game",
+            lastUpdated: 1563202271
         }
     },
     software: {
         "calculator-the-game-cheats": {
-            title: "Calculator: The Game - Cheats"
+            title: "Calculator: The Game - Cheats",
+            lastUpdated: 1563202271
         },
         "comcode-translator": {
-            title: "ComCode Translator"
+            title: "ComCode Translator",
+            lastUpdated: 1563202271
         },
         "legitimate-images-made-from-images": {
-            title: "Legitimate Images Made From Images"
+            title: "Legitimate Images Made From Images",
+            lastUpdated: 1563202271
         },
         "symbol-translator": {
-            title: "Symbol Translator"
+            title: "Symbol Translator",
+            lastUpdated: 1563202271
         },
         "tessellation-creator": {
-            title: "Tessellation Creator"
+            title: "Tessellation Creator",
+            lastUpdated: 1563202271
         },
         "word-search-cheats": {
-            title: "Word Search Cheats"
+            title: "Word Search Cheats",
+            lastUpdated: 1563202271
         },
         "word-search-cheats-ocr": {
-            title: "Word Search Cheats OCR"
+            title: "Word Search Cheats OCR",
+            lastUpdated: 1563202271
         }
     }
 }
@@ -136,6 +156,23 @@ app.get(["/w/games/:id", "/w/software/:id"], (req, res) => {
             `
                 <h1>${item.title}</h1>
                 <p>${item.desc ? item.desc : ""}</p>
+                ${
+                    item.platforms ? (`<h1>Downloads</h1>
+                        ${(function () {
+                            let r = "<ul>";
+                            for (let i in item.platforms) {
+                                r += `<li><h2><a href="/w/${type}/${req.params.id}/${i}">${i.charAt(0).toUpperCase() + i.slice(1)}</a></h2><ul>`;
+                                for (let j in item.platforms[i].versions) {
+                                    r += `<li><h3><a href="/w/${type}/${req.params.id}/${i}/${j}">${j}</a></h3></li>`
+                                }
+                                r += "</ul></li>";
+                            }
+                            r += "</ul>";
+                            return r;
+                        })()}`
+                    ) :
+                    ""
+                }
             `
         ));
     } else {
