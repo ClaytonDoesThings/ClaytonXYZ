@@ -328,6 +328,38 @@ function htmlPage(head, body, title="Clayton Does Things XYZ", meta) {
     return toSend;
 }
 
+function pathToSitemap (path, freq, priority) {
+    return (`<url><loc>https://claytondoesthings.xyz${path}</loc><changefreq>${freq}</changefreq><priority>${priority}</priority></url>`);
+}
+
+app.get("/sitemap.xml", (req, res) => {
+    let r = `<?xml version="1.0" encoding="UTF-8"?>`;
+    r += `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`;
+    r += pathToSitemap("/w/home", "monthly", 1);
+    r += pathToSitemap("/w/games", "monthly", 0.9);
+    for (let i in db.games) {
+        r += pathToSitemap(`/w/games/${i}`, "weekly", 0.8);
+        for (let j in db.games[i].platforms) {
+            r += pathToSitemap(`/w/games/${i}/${j}`, "weekly", 0.7);
+            for (let k in db.games[i].platforms[j].versions) {
+                r += pathToSitemap(`/w/games/${i}/${j}/${k}`, "monthly", 0.6);
+            }
+        }
+    }
+    r += pathToSitemap("/w/software", "monthly", 0.9);
+    for (let i in db.software) {
+        r += pathToSitemap(`/w/software/${i}`, "weekly", 0.8);
+        for (let j in db.software[i].platforms) {
+            r += pathToSitemap(`/w/software/${i}/${j}`, "weekly", 0.7);
+            for (let k in db.software[i].platforms[j].versions) {
+                r += pathToSitemap(`/w/software/${i}/${j}/${k}`, "monthly", 0.6);
+            }
+        }
+    }
+    r += "</urlset>";
+    res.type("application/xml").send(r);
+});
+
 app.get("/s/*", (req, res) => {
     let p = `${__dirname}${req.url.replace("%20", ' ')}`;
     if (fs.existsSync(p)) {
