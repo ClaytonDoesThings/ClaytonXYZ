@@ -1,0 +1,6 @@
+<link rel="stylesheet" href="/s/games/demonic-conquest/web/v0.1/TemplateData/style.css">
+<script src="/s/games/demonic-conquest/web/v0.1/TemplateData/UnityProgress.js"></script>  
+<script src="/s/games/demonic-conquest/web/v0.1/Build/UnityLoader.js"></script>
+<script>
+    var gameInstance = UnityLoader.instantiate("gameContainer", "/s/games/demonic-conquest/web/v0.1/Build/Default WebGL.json", {onProgress: UnityProgress});
+</script>

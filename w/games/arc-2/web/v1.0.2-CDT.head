@@ -1,0 +1,9 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.1/p5.js"><script src="/s/games/arc-2/web/v1.0.2-CDT/badWords.js"></script><script src="https://www.gstatic.com/firebasejs/5.5.5/firebase-app.js"></script><script src="https://www.gstatic.com/firebasejs/5.5.5/firebase-firestore.js"></script><script>firebase.initializeApp({apiKey: 'AIzaSyBIJ2rA8DJvnpYntMw1jJ18RfbjoXidUoI',
+//authDomain: '### FIREBASE AUTH DOMAIN ###',
+projectId: 'claytondoesthingsxyz'});
+// Initialize Cloud Firestore through Firebase
+var db = firebase.firestore();
+// Disable deprecated features
+db.settings({timestampsInSnapshots: true});const gameId = "2HbTB1akfOrcKvPc3klU";scoresRef = db.collection("games/" + gameId + "/leaderboard-beta");
+//console.log(scoresRef);
+scoresRef.orderBy('score').onSnapshot((query) => {if (document.getElementById('leaderboard-ol') !== null) {document.getElementById('leaderboard-ol').innerHTML = "";}var reversed = [];query.forEach((doc) => {reversed.push(doc.data());});for (var i = 0; i < 50 && i < reversed.length; i++) {var score = reversed[reversed.length-i-1];document.getElementById('leaderboard-ol').innerHTML += ("<li>" + score.name + " - " + score.score + " points</li>");}});function submitHighScore() {var username = document.getElementById('username').value;badWord = false;for (i in badWords) {var word = badWords[i];if (username.toLowerCase().includes(word)) {badWord = true;}}console.log(username);if (!highScoreSubmitted && username.length > 0 && username.length < 30 && !badWord && highScore > 4000) {highScoreSubmitted = true;document.cookie = ("highScore=" + highScore + "; " + 60*60*24*365*9);scoresRef.doc().set({name: username,score: highScore});}}</script>

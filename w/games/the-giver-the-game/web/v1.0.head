@@ -1,0 +1,6 @@
+<link rel="stylesheet" href="/s/games/the-giver-the-game/web/v1.0/TemplateData/style.css">
+<script src="/s/games/the-giver-the-game/web/v1.0/TemplateData/UnityProgress.js"></script>
+<script src="/s/games/the-giver-the-game/web/v1.0/Build/UnityLoader.js"></script>
+<script>
+    var gameInstance = UnityLoader.instantiate("gameContainer", "/s/games/the-giver-the-game/web/v1.0/Build/TheGiverTheGame-1.0-Web.json", {onProgress: UnityProgress});
+</script>

@@ -1,0 +1,46 @@
+• clean code
+	• less vars
+	• more vars
+	• more return functions
+
+X Design Gui/improved art
+	• Color
+	X Score/ time display
+
+• Better level generation
+
+• objectives
+	X Bring back timer
+	• Create score system
+
+
+X Better Color
+X Up colisions
+X More jump vars
+X Drop off walls
+X roof clinging
+X Var for player size
+X Aerial movement
+X Walls
+X Side colisions
+
+movement
+
+ground
+	O slide
+	<>fast
+	J jump
+
+Aerial
+	<>slow
+
+Walls
+
+	O Slide
+	J jump
+	|> fall
+	|< climb
+
+Roof
+	J hold
+	<> Slide/jump
