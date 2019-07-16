@@ -401,7 +401,7 @@ app.get(["/w/games", "/w/software"], (req, res) => {
                 ${(function () {
                     var r = "";
                     for (let i in db[type]) {
-                        r += `<li style="padding-left: 10px; padding-right: 10px;"><a style="display: inline; padding: 0px 0px;" href="/w/${type}/${i}">${db[type][i].title}</a>${Object.keys(db[type][i].platforms).indexOf("web") !== -1 ? `<a style="display: inline; padding: 0px 0px; float: right; background-color: #ded" href="/w/${type}/${i}/web">  Play Now  </a>` : ""}</li>`
+                        r += `<li style="padding-left: 10px; padding-right: 10px;"><a style="display: inline; padding: 0px 0px;" href="/w/${type}/${i}">${db[type][i].title}</a>${Object.keys(db[type][i].platforms).indexOf("web") !== -1 ? `<a style="display: inline; padding: 0px 0px; float: right; background-color: #0fdb42" href="/w/${type}/${i}/web">  Play Now  </a>` : ""}</li>`
                     }
                     return r;
                 })()}
@@ -423,6 +423,10 @@ app.get(["/w/games/:id", "/w/software/:id"], (req, res) => {
                 <div style="width:60%; margin-left:auto; margin-right:auto; text-align:center;">
                     <h1 align="center"><u>${item.title}</u></h1>
                     <p>${item.desc ? item.desc : ""}</p>
+                    ${Object.keys(item.platforms).indexOf("web") !== -1 ?
+                        `<a style="text-align: center; font-size: 32px; color: black; text-decoration: none; background-color: #0fdb42; padding: 4px; margin: 4px" href="/w/${type}/${req.params.id}/web">Play Now</a>` :
+                        ""
+                    }
                     ${
                         item.platforms ? (`<hr><h2 align="center"><u>Downloads</u></h2>
                             ${(function () {
