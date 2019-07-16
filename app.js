@@ -381,8 +381,8 @@ app.get(["/", "/w", "/w/home"], (req, res) => {
         modules.styles(),
         modules.topNav() +
         `
-            <h1><b>Home</b></h1>
-            <p>Welcome to the homepage of Clayton Does Things!</p>
+            <h1 align="center"><b><u>Home</u></b></h1>
+            <p align="center">Welcome to the homepage of Clayton Does Things!</p>
         `,
         "Home | Clayton Does Things XYZ"
     ));
@@ -396,7 +396,7 @@ app.get(["/w/games", "/w/software"], (req, res) => {
         modules.styles(),
         modules.topNav() +
         `
-            <h1>${typeStylized}</h1>
+            <h1 align="center"><u>${typeStylized}</u></h1>
             <ul class="vertical-list">
                 ${(function () {
                     var r = "";
@@ -420,25 +420,29 @@ app.get(["/w/games/:id", "/w/software/:id"], (req, res) => {
             modules.styles(),
             modules.topNav() +
             `
-                <h1>${item.title}</h1>
-                <p>${item.desc ? item.desc : ""}</p>
-                ${
-                    item.platforms ? (`<h1>Downloads</h1>
-                        ${(function () {
-                            let r = `<ul>`;
-                            for (let i in item.platforms) {
-                                r += `<li><h2><a href="/w/${type}/${req.params.id}/${i}">${i.charAt(0).toUpperCase() + i.slice(1)}</a></h2><ul>`;
-                                for (let j in item.platforms[i].versions) {
-                                    r += `<li><h3><a href="/w/${type}/${req.params.id}/${i}/${j}">${j}</a></h3></li>`
+                <div style="width:60%; margin-left:auto; margin-right:auto; text-align:center;">
+                    <h1 align="center"><u>${item.title}</u></h1>
+                    <p>${item.desc ? item.desc : ""}</p>
+                    ${
+                        item.platforms ? (`<hr><h2 align="center"><u>Downloads</u></h2>
+                            ${(function () {
+                                r = ""
+                                for (let i in item.platforms) {
+                                    if (Object.keys(item.platforms[i].versions).length > 0) {
+                                        r += `<h3><a href="/w/${type}/${req.params.id}/${i}">${i.charAt(0).toUpperCase() + i.slice(1)}</a></h3>
+                                        <ul style="border:none" class="vertical-list">`;
+                                        for (let j in item.platforms[i].versions) {
+                                            r += `<li style="border:none;"><h4><u><a style="text-decoration-color: #3da5ff;" href="/w/${type}/${req.params.id}/${i}/${j}">${j}</a></u></h4></li>`
+                                        }
+                                    }
+                                    r += "</ul>";
                                 }
-                                r += "</ul></li>";
-                            }
-                            r += "</ul>";
-                            return r;
-                        })()}`
-                    ) :
-                    ""
-                }
+                                return r;
+                            })()}`
+                        ) :
+                        ""
+                    }
+                </div>
             `,
             `${item.title} | ${type.charAt(0).toUpperCase() + type.slice(1)} - Clayton Does Things XYZ`
         ));
@@ -462,6 +466,7 @@ app.get(["/w/games/:id/:platform", "/w/games/:id/:platform/:version", "/w/softwa
                         modules.styles() +
                         fs.readFileSync(basePath + ".head", "utf8"),
                         modules.topNav() +
+                        `<h1><u><a href="/w/${type}/${req.params.id}">${item.title}</a></u></h1><p>${item.desc}</p><hr>` +
                         fs.readFileSync(basePath + ".body", "utf8")
                     ));
                 } else {
