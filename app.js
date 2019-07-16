@@ -297,13 +297,14 @@ var db = {
 
 var modules = {
     favicon: function () {
-        return `
-            <link rel="icon" href="/s/favicon.ico">
-        `;
+        return `<link rel="icon" href="/s/favicon.ico">`;
+    },
+    styles: function () {
+        return `<link href="/s/styles.css" rel="stylesheet" type="text/css" />`;
     },
     topNav: function () {
         return `
-            <ul>
+            <ul class="horizontal-list">
                 <li><a href="/w/home">Home</a></li>
                 <li><a href="/w/games">Games</a></li>
                 <li><a href="/w/software">Tools & Software</a></li>
@@ -376,11 +377,12 @@ app.get("/404", (req, res) => {
 
 app.get(["/", "/w", "/w/home"], (req, res) => {
     res.send(htmlPage(
-        modules.favicon(),
+        modules.favicon() +
+        modules.styles(),
         modules.topNav() +
         `
-            <h1>Home</h1>
-            <body>Welcome to the homepage of Clayton Does Things!</body>
+            <h1><b>Home</b></h1>
+            <p>Welcome to the homepage of Clayton Does Things!</p>
         `,
         "Home | Clayton Does Things XYZ"
     ));
@@ -390,15 +392,16 @@ app.get(["/w/games", "/w/software"], (req, res) => {
     var type = req.url.split("/")[2].toLowerCase();
     var typeStylized = type.charAt(0).toUpperCase() + type.slice(1);
     res.send(htmlPage(
-        modules.favicon(),
+        modules.favicon() +
+        modules.styles(),
         modules.topNav() +
         `
             <h1>${typeStylized}</h1>
-            <ul>
+            <ul class="vertical-list">
                 ${(function () {
                     var r = "";
                     for (let i in db[type]) {
-                        r += `<li><a href="/w/${type}/${i}">${db[type][i].title}</a></li>`
+                        r += `<li style="padding-left: 10px; padding-right: 10px;"><a style="display: inline; padding: 0px 0px;" href="/w/${type}/${i}">${db[type][i].title}</a>${Object.keys(db[type][i].platforms).indexOf("web") !== -1 ? `<a style="display: inline; padding: 0px 0px; float: right; background-color: #ded" href="/w/${type}/${i}/web">  Play Now  </a>` : ""}</li>`
                     }
                     return r;
                 })()}
@@ -413,7 +416,8 @@ app.get(["/w/games/:id", "/w/software/:id"], (req, res) => {
     var item = db[type][req.params.id];
     if (item !== undefined) {
         res.send(htmlPage(
-            modules.favicon(),
+            modules.favicon() +
+            modules.styles(),
             modules.topNav() +
             `
                 <h1>${item.title}</h1>
@@ -421,7 +425,7 @@ app.get(["/w/games/:id", "/w/software/:id"], (req, res) => {
                 ${
                     item.platforms ? (`<h1>Downloads</h1>
                         ${(function () {
-                            let r = "<ul>";
+                            let r = `<ul>`;
                             for (let i in item.platforms) {
                                 r += `<li><h2><a href="/w/${type}/${req.params.id}/${i}">${i.charAt(0).toUpperCase() + i.slice(1)}</a></h2><ul>`;
                                 for (let j in item.platforms[i].versions) {
@@ -455,6 +459,7 @@ app.get(["/w/games/:id/:platform", "/w/games/:id/:platform/:version", "/w/softwa
                     var basePath = `${__dirname}/w/${type}/${req.params.id}/${req.params.platform}/${req.params.version || Object.keys(platform.versions)[0]}`;
                     res.send(htmlPage(
                         modules.favicon() +
+                        modules.styles() +
                         fs.readFileSync(basePath + ".head", "utf8"),
                         modules.topNav() +
                         fs.readFileSync(basePath + ".body", "utf8")
