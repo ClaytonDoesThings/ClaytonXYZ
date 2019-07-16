@@ -1,0 +1,16 @@
+<script src="/s/software/symbol-translator/web/v1.1.2/p5.min.js"></script>
+<script src="/s/software/symbol-translator/web/v1.1.2/globals.js"></script>
+<script src="/s/software/symbol-translator/web/v1.1.2/script.js"></script>
+<div id="sketch-holder"></div>
+<div>
+    <p><span>Base Font</span><select id="baseFont" onChange="updateBaseFont()"></select></p>
+    <p><span>Target Font</span><select id="targetFont" onChange="updateTargetFont()"></select></p>
+</div>
+<div>
+    <input type="button" value="Add Font" onClick="uploadFont()"/>
+    <input type="file" id="fontUpload"/>
+</div>
+<div>
+    <br/>
+    <span>BirbText and AlienText fonts made by Deborah#6709 based on the symbols designed by Creator Ink and The Game Theorists.</span>
+</div>

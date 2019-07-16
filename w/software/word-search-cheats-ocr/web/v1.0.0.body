@@ -1,0 +1,16 @@
+<script src='https://cdn.rawgit.com/naptha/tesseract.js/1.0.10/dist/tesseract.js'></script>
+<script src="/s/software/word-search-cheats-ocr/web/v1.0.0/p5.js"></script>
+<script src="/s/software/word-search-cheats-ocr/web/v1.0.0/p5.dom.js"></script>
+<script src="/s/software/word-search-cheats-ocr/web/v1.0.0/globals.js"></script>
+<script src="/s/software/word-search-cheats-ocr/web/v1.0.0/functions.js"></script>
+<script src="/s/software/word-search-cheats-ocr/web/v1.0.0/handlers.js"></script>
+<script src="/s/software/word-search-cheats-ocr/web/v1.0.0/script.js"></script>
+Image Upload: <input type="file" id="imageUpload" onchange="handleImageUpload()">
+<br/>
+<img src="/s/software/word-search-cheats-ocr/web/v1.0.0/ws2.jpg" id="img" width="50%"></img>
+<br/>
+<button onClick="recongnize()">Recongnize</button>
+<a id="progressStatus">None</a>
+<input type="range" min="0" max="100" value="0" class="slider" id="progress">
+<br/>
+<a id="result"></a>

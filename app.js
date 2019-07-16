@@ -197,30 +197,99 @@ var db = {
     software: {
         "calculator-the-game-cheats": {
             title: "Calculator: The Game - Cheats",
+            desc: `Cheats for "Calculator The Game"`,
+            platforms: {
+                web: {
+                    versions: {
+                        "v1.0": {
+                            index: 0
+                        }
+                    }
+                }
+            },
             lastUpdated: 1563202271
         },
         "comcode-translator": {
             title: "ComCode Translator",
+            desc: "Translates ComCode to text and vice-versa.",
+            platforms: {
+                web: {
+                    versions: {
+                        "v1.0.0": {
+                            index: 0
+                        }
+                    }
+                }
+            },
             lastUpdated: 1563202271
         },
         "legitimate-images-made-from-images": {
             title: "Legitimate Images Made From Images",
+            desc: "Make images from other images",
+            platforms: {
+                web: {
+                    versions: {
+                        "v1.0.0": {
+                            index: 0
+                        }
+                    }
+                }
+            },
             lastUpdated: 1563202271
         },
         "symbol-translator": {
             title: "Symbol Translator",
+            desc: `An encoder & decoder for "cryptic" fonts. BirbText and AlienText fonts made by Deborah#6709 based on the symbols designed by Creator Ink and The Game Theorists.`,
+            platforms: {
+                web: {
+                    versions: {
+                        "v1.1.2": {
+                            index: 0
+                        }
+                    }
+                }
+            },
             lastUpdated: 1563202271
         },
         "tessellation-creator": {
             title: "Tessellation Creator",
+            platforms: {
+                web: {
+                    versions: {
+                        "v1.0.0": {
+                            index: 0
+                        }
+                    }
+                }
+            },
             lastUpdated: 1563202271
         },
         "word-search-cheats": {
             title: "Word Search Cheats",
+            desc: "Do word searches instantly",
+            platforms: {
+                web: {
+                    versions: {
+                        "v1.0.0": {
+                            index: 0
+                        }
+                    }
+                }
+            },
             lastUpdated: 1563202271
         },
         "word-search-cheats-ocr": {
             title: "Word Search Cheats OCR",
+            desc: `Do word searches INSTANTLY! Now with OCR. To begin, upload an image. Then, crop the image to JUST the letter of the word search. Then, hit the ""recognize" button, wait. Then, ensure the recognized text is correct, if not, change it. Hit "tab" and then enter the search terms on the following screen. When finished, hit tab again. The next screen will then show you the results of the word search. REMEMBER, the coordinates for the letters start at ZERO. X goes right and Y goes down. Press tab again to display the word search with the found words highlighted.`,
+            platforms: {
+                web: {
+                    versions: {
+                        "v1.0.0": {
+                            index: 0
+                        }
+                    }
+                }
+            },
             lastUpdated: 1563202271
         }
     }
