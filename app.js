@@ -401,7 +401,7 @@ app.get(["/w/games", "/w/software"], (req, res) => {
                 ${(function () {
                     var r = "";
                     for (let i in db[type]) {
-                        r += `<li style="padding-left: 10px; padding-right: 10px;"><a style="display: inline; padding: 0px 0px;" href="/w/${type}/${i}">${db[type][i].title}</a>${Object.keys(db[type][i].platforms).indexOf("web") !== -1 ? `<a style="display: inline; padding: 0px 0px; float: right; background-color: #0fdb42" href="/w/${type}/${i}/web">  Play Now  </a>` : ""}</li>`
+                        r += `<li style="padding-left: 10px; padding-right: 10px;"><a style="display: inline; padding: 0px 0px; font-size: 32px;" href="/w/${type}/${i}">${db[type][i].title}</a>${Object.keys(db[type][i].platforms).indexOf("web") !== -1 ? `<a style="display: inline; padding: 0px 0px; float: right; background-color: #0fdb42; font-size: 32px;" href="/w/${type}/${i}/web">  Play Now  </a>` : ""}</li>`
                     }
                     return r;
                 })()}
