@@ -165,6 +165,30 @@ var db = {
                             index: 0
                         }
                     }
+                },
+                linux64: {
+                    versions: {
+                        "v1.0": {
+                            index: 0,
+                            fileName: "TheGiverTheGame-1.0-Linux64.zip"
+                        }
+                    }
+                },
+                windows32: {
+                    versions: {
+                        "v1.0": {
+                            index: 0,
+                            fileName: "TheGiverTheGame-1.0-Windows32.zip"
+                        }
+                    }
+                },
+                windows64: {
+                    versions: {
+                        "v1.0": {
+                            index: 0,
+                            fileName: "TheGiverTheGame-1.0-Windows64.zip"
+                        }
+                    }
                 }
             },
             lastUpdated: 1563202271
