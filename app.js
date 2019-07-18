@@ -470,8 +470,9 @@ app.get(["/w/games/:id/:platform", "/w/games/:id/:platform/:version", "/w/softwa
                         modules.styles() +
                         fs.readFileSync(basePath + ".head", "utf8"),
                         modules.topNav() +
-                        `<h1><u><a href="/w/${type}/${req.params.id}">${item.title}</a></u></h1><p>${item.desc}</p><hr>` +
-                        fs.readFileSync(basePath + ".body", "utf8")
+                        `<h1><u><a href="/w/${type}/${req.params.id}">${item.title}</a></u></h1>${req.params.version ? `<p class="subtext">You are currently viewing a specific version of this program. Thefore, this link my not be up-to-date. To always have the latest version, go <a href="/w/${type}/${req.params.id}/${req.params.platform}">here</a>.</p>` : ""}<p>${item.desc}</p><hr>` +
+                        fs.readFileSync(basePath + ".body", "utf8"),
+                        `${item.title} ${req.params.platform.charAt(0).toUpperCase() + req.params.platform.slice(1)}${req.params.version ? `[${req.params.version}]` : ""} | ${type.charAt(0).toUpperCase() + type.slice(1)} - Clayton Does Things XYZ`
                     ));
                 } else {
                     res.download(`${__dirname}/s/${type}/${req.params.id}/${req.params.platform}/${req.params.version || Object.keys(platform.versions)[0]}/${version.fileName}`)
