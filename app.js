@@ -13,8 +13,12 @@ var db = {
             platforms: {
                 web: {
                     versions: {
-                        "v1.0.2-CDT": 1,
-                        "v1.0.2": 0
+                        "v1.0.2-CDT": {
+                            index: 1
+                        },
+                        "v1.0.2": {
+                            index: 0
+                        }
                     }
                 }
             },
@@ -243,7 +247,9 @@ var db = {
             platforms: {
                 web: {
                     versions: {
-                        "v1.1.2": {
+                        "v1.2.0": {
+                            index: 1
+                        }, "v1.1.2": {
                             index: 0
                         }
                     }
