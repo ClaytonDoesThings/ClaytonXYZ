@@ -309,6 +309,10 @@ var db = {
             href: "https://dlive.tv/ClaytonDoesThings"
         },
         {
+            title: "Patreon",
+            href: "https://www.patreon.com/ClaytonDoesThings"
+        },
+        {
             title: "Github",
             href: "https://github.com/ClaytonDoesThings/ClaytonXYZ"
         },
