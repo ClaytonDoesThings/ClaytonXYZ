@@ -91,6 +91,10 @@ a {
     background-color: #111;
 }
 
+.horizontal-list li a img {
+    height: 32px;
+}
+
 .vertical-list {
     list-style-type: none;
     margin: 0;

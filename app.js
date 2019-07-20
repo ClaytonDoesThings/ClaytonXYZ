@@ -298,7 +298,29 @@ var db = {
             },
             lastUpdated: 1563202271
         }
-    }
+    },
+    socials: [
+        {
+            title: "YouTube",
+            href: "https://www.youtube.com/channel/UChXdVQ8mm8UQBir87KaRgTQ"
+        },
+        {
+            title: "DLive",
+            href: "https://dlive.tv/ClaytonDoesThings"
+        },
+        {
+            title: "Github",
+            href: "https://github.com/ClaytonDoesThings/ClaytonXYZ"
+        },
+        {
+            title: "Discord",
+            href: "https://discordapp.com/invite/nSGT8BJ"
+        },
+        {
+            title: "Twitter",
+            href: "https://twitter.com/ClaytonsThings"
+        }
+    ]
 }
 
 var modules = {
@@ -314,6 +336,15 @@ var modules = {
                 <li><a href="/w/home">Home</a></li>
                 <li><a href="/w/games">Games</a></li>
                 <li><a href="/w/software">Tools & Software</a></li>
+                ${(
+                    function () {
+                        let r = "";
+                        for (let i = db.socials.length-1; i >= 0; i--) {
+                            r += `<li style="float: right;"><a href="${db.socials[i].href}" target="_blank"><img alt="${db.socials[i].title}" src="/s/logos/${db.socials[i].title}-logo-bw.png"/></a></li>`;
+                        }
+                        return r;
+                    }
+                )()}
             </ul>
         `;
     }
@@ -387,8 +418,21 @@ app.get(["/", "/w", "/w/home"], (req, res) => {
         modules.styles(),
         modules.topNav() +
         `
+            <div style="width:60%; margin-left:auto; margin-right:auto; text-align:center;">
             <h1 align="center"><b><u>Home</u></b></h1>
             <p align="center">Welcome to the homepage of Clayton Does Things!</p>
+            <hr/>
+            <p>Remember to follow our socials!</p>
+            ${(
+                function () {
+                    let r = "";
+                    for (let i in db.socials) {
+                        r += `<a href="${db.socials[i].href}" target="_blank"><img alt="${db.socials[i].title}" src="/s/logos/${db.socials[i].title}-logo-color.png" style="margin: 6px; height: 50px"/></a>`;
+                    }
+                    return r;
+                }
+            )()}
+            </div>
         `,
         "Home | Clayton Does Things XYZ"
     ));
