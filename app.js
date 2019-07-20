@@ -317,6 +317,10 @@ var db = {
             href: "https://discordapp.com/invite/nSGT8BJ"
         },
         {
+            title: "Instagram",
+            href: "https://www.instagram.com/claytondoesthings/"
+        },
+        {
             title: "Twitter",
             href: "https://twitter.com/ClaytonsThings"
         }
