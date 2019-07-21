@@ -32,7 +32,7 @@ function preload() {
 
 	for (let i in fontsToLoad) {
 		fonts[i] = {
-			font: loadFont('/s/software/symbol-translator/web/v1.2.0/fonts/' + fontsToLoad[i].fileName),
+			font: loadFont('fonts/' + fontsToLoad[i].fileName),
 			keyboardLayouts: fontsToLoad[i].keyboardLayouts,
 		};
 	}

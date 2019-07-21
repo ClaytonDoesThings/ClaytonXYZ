@@ -491,10 +491,10 @@ app.get(["/w/games/:id", "/w/software/:id"], (req, res) => {
                                 r = ""
                                 for (let i in item.platforms) {
                                     if (Object.keys(item.platforms[i].versions).length > 0) {
-                                        r += `<h3><a href="/w/${type}/${req.params.id}/${i}">${i.charAt(0).toUpperCase() + i.slice(1)}</a></h3>
+                                        r += `<h3><a href="/w/${type}/${req.params.id}/${i === "web" ? `web/index.html` : i}">${i.charAt(0).toUpperCase() + i.slice(1)}</a></h3>
                                         <ul style="border:none" class="vertical-list">`;
                                         for (let j in item.platforms[i].versions) {
-                                            r += `<li style="border:none;"><h4><u><a style="text-decoration-color: #3da5ff;" href="/w/${type}/${req.params.id}/${i}/${j}">${j}</a></u></h4></li>`
+                                            r += `<li style="border:none;"><h4><u><a style="text-decoration-color: #3da5ff;" href="/w/${type}/${req.params.id}/${i === "web" ? `web/index.html` : i}?version=${j}&">${j}</a></u></h4></li>`
                                         }
                                     }
                                     r += "</ul>";
@@ -513,34 +513,41 @@ app.get(["/w/games/:id", "/w/software/:id"], (req, res) => {
     }
 });
 
-app.get(["/w/games/:id/:platform", "/w/games/:id/:platform/:version", "/w/software/:id/:platform", "/w/software/:id/:platform/:version"], (req, res) => {
+app.get(["/w/games/:id/:platform", "/w/games/:id/:platform/index.html", "/w/software/:id/:platform", "/w/software/:id/:platform/index.html"], (req, res) => {
     var type = req.url.split("/")[2].toLowerCase();
     var item = db[type][req.params.id];
+    var urlVars = req.query;
     if (item !== undefined) {
         var platform = item.platforms[req.params.platform];
         if (platform !== undefined) {
-            if (platform.versions > 0 && req.params.version ? platform.versions[req.params.version] : true) {
-                var version = req.params.version !== undefined ? platform.versions[req.params.version] : platform.versions[Object.keys(platform.versions)[0]];
+            if (Object.keys(platform.versions).length > 0 && (urlVars.version !== undefined ? platform.versions[urlVars.version] !== undefined : true)) {
+                var version = urlVars.version !== undefined ? platform.versions[urlVars.version] : platform.versions[Object.keys(platform.versions)[0]];
                 if (req.params.platform === "web") {
-                    var basePath = `${__dirname}/w/${type}/${req.params.id}/${req.params.platform}/${req.params.version || Object.keys(platform.versions)[0]}`;
-                    res.send(htmlPage(
-                        modules.favicon() +
-                        modules.styles() +
-                        fs.readFileSync(basePath + ".head", "utf8"),
-                        modules.topNav() +
-                        `<h1><u><a href="/w/${type}/${req.params.id}">${item.title}</a></u></h1>${req.params.version ? `<p class="subtext">You are currently viewing a specific version of this program. Thefore, this link my not be up-to-date. To always have the latest version, go <a href="/w/${type}/${req.params.id}/${req.params.platform}">here</a>.</p>` : ""}<p>${item.desc}</p><hr>` +
-                        fs.readFileSync(basePath + ".body", "utf8"),
-                        `${item.title} ${req.params.platform.charAt(0).toUpperCase() + req.params.platform.slice(1)}${req.params.version ? `[${req.params.version}]` : ""} | ${type.charAt(0).toUpperCase() + type.slice(1)} - Clayton Does Things XYZ`
-                    ));
+                    if ((req.url.indexOf('?') !== -1 ? req.url.slice(0, req.url.indexOf('?')) : req.url).endsWith("/index.html")) {
+                        var basePath = `${__dirname}/w/${type}/${req.params.id}/${req.params.platform}/${urlVars.version || Object.keys(platform.versions)[0]}`;
+                        res.send(htmlPage(
+                            modules.favicon() +
+                            modules.styles() +
+                            fs.readFileSync(basePath + ".head", "utf8"),
+                            modules.topNav() +
+                            `<h1><u><a href="/w/${type}/${req.params.id}">${item.title}</a></u></h1>${urlVars.version ? `<p class="subtext">You are currently viewing a specific version of this program. Thefore, this link my not be up-to-date. To always have the latest version, go <a href="/w/${type}/${req.params.id}/${req.params.platform}/index.html">here</a>.</p>` : ""}<p>${item.desc}</p><hr>` +
+                            fs.readFileSync(basePath + ".body", "utf8"),
+                            `${item.title} ${req.params.platform.charAt(0).toUpperCase() + req.params.platform.slice(1)}${urlVars.version ? `[${urlVars.version}]` : ""} | ${type.charAt(0).toUpperCase() + type.slice(1)} - Clayton Does Things XYZ`
+                        ));
+                    } else {
+                        var redirectUrl = `/w/${type}/${req.params.id}/${req.params.platform}/index.html`;
+                        console.log(`${req.url} is redirecting to ${redirectUrl}`)
+                        res.redirect(redirectUrl);
+                    }
                 } else {
-                    res.download(`${__dirname}/s/${type}/${req.params.id}/${req.params.platform}/${req.params.version || Object.keys(platform.versions)[0]}/${version.fileName}`)
+                    res.download(`${__dirname}/s/${type}/${req.params.id}/${req.params.platform}/${urlVars.version || Object.keys(platform.versions)[0]}/${version.fileName}`)
                 }
             } else {
-                console.log("Bad Version");
-                redirect("/404");
+                console.log(req.url + " contains a bad version.");
+                res.redirect("/404");
             }
         } else {
-            console.log("Bad Platform");
+            console.log(req.url + " contains a bad platform.");
             res.redirect("/404");
         }
     } else {
@@ -549,8 +556,39 @@ app.get(["/w/games/:id/:platform", "/w/games/:id/:platform/:version", "/w/softwa
     }
 });
 
+app.get(["/w/games/:id/:platform/*", "/w/software/:id/:platform/*"], (req, res) => {
+    var type = req.url.split("/")[2].toLowerCase();
+    var item = db[type][req.params.id];
+    var urlVars = req.query;
+    if (item !== undefined) {
+        var platform = item.platforms[req.params.platform];
+        if (platform !== undefined && req.params.platform === "web") {
+            if (Object.keys(platform.versions).length > 0 && (urlVars.version !== undefined ? platform.versions[urlVars.version] !== undefined : true)) {
+                var version = urlVars.version !== undefined ? platform.versions[urlVars.version] : platform.versions[Object.keys(platform.versions)[0]];
+                var basePath = `/w/${type}/${req.params.id}/${req.params.platform}`;
+                var filePath = `${__dirname}/s/${type}/${req.params.id}/${req.params.platform}/${urlVars.version || Object.keys(platform.versions)[0]}/${req.url.slice(basePath.length)}`;
+                if (fs.existsSync(filePath)) {
+                    res.sendFile(filePath);
+                } else {
+                    console.log(`File ${filePath} does not exist`);
+                    res.redirect("/404");
+                }
+            } else {
+                console.log(req.url + " contains a bad version.");
+                res.redirect("/404");
+            }
+        } else {
+            console.log(req.url + " contains a bad platform.");
+            res.redirect("/404");
+        }
+    } else {
+        console.log("Bad ID");
+        res.redirect("/404");
+    }
+})
+
 app.use(function (req, res, next) {
-    console.log(`${req.ip} attempted to reach non-existant page: ${req.url}`);
+    console.log(`${req.ip} attempted to reach non-existant resource: ${req.url}`);
     res.redirect("/404");
 })
 

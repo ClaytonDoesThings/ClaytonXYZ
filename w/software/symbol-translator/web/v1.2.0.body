@@ -1,6 +1,6 @@
-<script src="/s/software/symbol-translator/web/v1.2.0/p5.min.js"></script>
-<script src="/s/software/symbol-translator/web/v1.2.0/globals.js"></script>
-<script src="/s/software/symbol-translator/web/v1.2.0/script.js"></script>
+<script src="p5.min.js"></script>
+<script src="globals.js"></script>
+<script src="script.js"></script>
 <div id="sketch-holder"></div>
 <div>
     <p><span>Base Font: </span><select id="baseFont" onChange="updateBaseFont()"></select><span>Keyboard Layout: </span><select id="baseFontLayout" onChange="updateBaseFontLayout()"></select></p>
