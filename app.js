@@ -333,7 +333,7 @@ var db = {
 
 var modules = {
     favicon: function () {
-        return `<link rel="icon" href="/s/favicon.ico">`;
+        return `<link rel="icon" href="/favicon.ico">`;
     },
     styles: function () {
         return `<link href="/s/styles.css" rel="stylesheet" type="text/css" />`;
@@ -386,9 +386,10 @@ app.get("/sitemap.xml", (req, res) => {
     for (let i in db.games) {
         r += pathToSitemap(`/w/games/${i}`, "weekly", 0.8);
         for (let j in db.games[i].platforms) {
-            r += pathToSitemap(`/w/games/${i}/${j}`, "weekly", 0.7);
+            let index = j === "web" ? "/index.html" : "";
+            r += pathToSitemap(`/w/games/${i}/${j}${index}`, "weekly", 0.7);
             for (let k in db.games[i].platforms[j].versions) {
-                r += pathToSitemap(`/w/games/${i}/${j}/${k}`, "monthly", 0.6);
+                r += pathToSitemap(`/w/games/${i}/${j}${index}?version=${k}`, "monthly", 0.6);
             }
         }
     }
@@ -396,15 +397,20 @@ app.get("/sitemap.xml", (req, res) => {
     for (let i in db.software) {
         r += pathToSitemap(`/w/software/${i}`, "weekly", 0.8);
         for (let j in db.software[i].platforms) {
-            r += pathToSitemap(`/w/software/${i}/${j}`, "weekly", 0.7);
+            let index = j === "web" ? "/index.html" : "";
+            r += pathToSitemap(`/w/software/${i}/${j}${index}`, "weekly", 0.7);
             for (let k in db.software[i].platforms[j].versions) {
-                r += pathToSitemap(`/w/software/${i}/${j}/${k}`, "monthly", 0.6);
+                r += pathToSitemap(`/w/software/${i}/${j}${index}?version=${k}`, "monthly", 0.6);
             }
         }
     }
     r += "</urlset>";
     res.type("application/xml").send(r);
 });
+
+app.get("/favicon.ico", (req, res) => {
+    res.sendFile(__dirname + "/s/favicon.ico");
+})
 
 app.get("/s/*", (req, res) => {
     let p = `${__dirname}${req.url.replace("%20", ' ')}`;
@@ -494,7 +500,7 @@ app.get(["/w/games/:id", "/w/software/:id"], (req, res) => {
                                         r += `<h3><a href="/w/${type}/${req.params.id}/${i === "web" ? `web/index.html` : i}">${i.charAt(0).toUpperCase() + i.slice(1)}</a></h3>
                                         <ul style="border:none" class="vertical-list">`;
                                         for (let j in item.platforms[i].versions) {
-                                            r += `<li style="border:none;"><h4><u><a style="text-decoration-color: #3da5ff;" href="/w/${type}/${req.params.id}/${i === "web" ? `web/index.html` : i}?version=${j}&">${j}</a></u></h4></li>`
+                                            r += `<li style="border:none;"><h4><u><a style="text-decoration-color: #3da5ff;" href="/w/${type}/${req.params.id}/${i === "web" ? `web/index.html` : i}?version=${j}">${j}</a></u></h4></li>`
                                         }
                                     }
                                     r += "</ul>";
