@@ -331,6 +331,85 @@ var db = {
     ]
 }
 
+var legacyRoutes = [
+    [
+        '/games/othcXgpI9PNqBt3aY5AX',
+        '/w/games/arc-plat'
+    ],
+    [
+        '/games/2HbTB1akfOrcKvPc3klU',
+        '/w/games/arc-plat'
+    ],
+    [
+        '/games/SrfvRpIl5K2dvoQyaRDr',
+        '/w/games/carai'
+    ],
+    [
+        '/games/cFCb44HSul7ydovmyqm0',
+        '/w/games/demonic-conquest'
+    ],
+    [
+        '/games/Zi1l6UGwnqyZhAEKkekH',
+        '/w/games/dig-it'
+    ],
+    [
+        '/games/ZmEAX6ahcJmtPne2cJT5',
+        '/w/games/russian-roulette'
+    ],
+    [
+        '/games/NoeJACBZ7L6GPyxaiV2o',
+        '/w/games/tetris'
+    ],
+    [
+        '/games/Kjwl3N49rt3JHO9wQumj',
+        '/w/games/the-giver-the-game'
+    ],
+    [
+        '/games',
+        '/w/games'
+    ],
+    [
+        '/software/vb3kiylD5juse5xAelMQ',
+        '/w/software/calculator-the-game-cheats'
+    ],
+    [
+        '/software/ewwNONFTbeoPq607TgFc',
+        '/w/software/comcode-translator'
+    ],
+    [
+        '/software/B4cXi8BOIS3Tmu9kTH55',
+        '/w/software/legitimate-images-made-from-images'
+    ],
+    [
+        '/software/1Jv03Dpex8vMMdQDkmjH',
+        '/w/software/symbol-translator'
+    ],
+    [
+        '/software/tvyPtYy0lmITI5uv6uFx',
+        '/w/software/tessellation-creator'
+    ],
+    [
+        '/software/3kJxqfLU7XQoOE3GwfXs',
+        '/w/software/word-search-cheats'
+    ],
+    [
+        '/software/G2GFOL958ihQwP3Ds3X7',
+        '/w/software/word-search-cheats-ocr'
+    ],
+    [
+        '/software',
+        '/w/software'
+    ]
+]
+
+var _legacyRoutes = [];
+
+for (let i in legacyRoutes) {
+    _legacyRoutes.push(legacyRoutes[i][0])
+    _legacyRoutes.push(legacyRoutes[i][0] + "/*");
+}
+console.log(_legacyRoutes);
+
 var modules = {
     favicon: function () {
         return `<link rel="icon" href="/favicon.ico">`;
@@ -377,6 +456,25 @@ function htmlPage(head, body, title="Clayton Does Things XYZ", meta) {
 function pathToSitemap (path, freq, priority) {
     return (`<url><loc>https://claytondoesthings.xyz${path}</loc><changefreq>${freq}</changefreq><priority>${priority}</priority></url>`);
 }
+
+app.get(_legacyRoutes, (req, res) => {
+    console.log(`${req.ip} requested ${req.url} which is a legacy route. They were refered by ${req.get('Referrer')}`);
+    let targetRoute = "";
+    for (let i in _legacyRoutes) {
+        if ((new RegExp(_legacyRoutes[i])).test(req.url)) {
+            targetRoute = legacyRoutes[Math.floor(i/2)][1];
+            break;
+        }
+    }
+    res.send(htmlPage(
+        modules.favicon() +
+        modules.styles(),
+        `<h1>IMPORTANT!</h1>
+        <h3 style="color: red;">The route you have requested is now a legacy route. It's function is no longer guranteed in the future. If you have gotten here through a link, PLEASE contact the referrer to get them to update the link. Otherwise, please update your bookmarks or remember the new path.</h3>
+        <h4><a href="${targetRoute}">--> Proceed to page <--</a></h4>
+        `
+    ));
+});
 
 app.get("/sitemap.xml", (req, res) => {
     let r = `<?xml version="1.0" encoding="UTF-8"?>`;
