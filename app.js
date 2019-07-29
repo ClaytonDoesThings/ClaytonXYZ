@@ -348,7 +348,7 @@ var modules = {
                     function () {
                         let r = "";
                         for (let i = db.socials.length-1; i >= 0; i--) {
-                            r += `<li style="float: right;"><a href="${db.socials[i].href}" target="_blank"><img alt="${db.socials[i].title}" src="/s/logos/${db.socials[i].title}-logo-bw.png"/></a></li>`;
+                            r += `<li style="float: right;"><a href="${db.socials[i].href}" target="_blank"><img alt="${db.socials[i].title}" src="/s/logos/${db.socials[i].title}-logo-color.png"/></a></li>`;
                         }
                         return r;
                     }
