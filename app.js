@@ -419,6 +419,16 @@ var modules = {
     },
     topNav: function () {
         return `
+            <!-- Global site tag (gtag.js) - Google Analytics -->
+            <script async src="https://www.googletagmanager.com/gtag/js?id=UA-113986935-1"></script>
+            <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+
+                gtag('config', 'UA-113986935-1');
+            </script>
+            
             <ul class="horizontal-list">
                 <li><a href="/w/home">Home</a></li>
                 <li><a href="/w/games">Games</a></li>
