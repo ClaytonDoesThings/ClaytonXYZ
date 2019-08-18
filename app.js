@@ -4,6 +4,11 @@ const express = require('express'),
 
 const app = express();
 const port = process.env.PORT || 8080;
+const googleAnalyticsID = process.env.GOOGLEANALYTICSID || false;
+const adsterra728x90Key = process.env.ADSTERRA728X90KEY || false;
+
+console.log(googleAnalyticsID ? "GOOGLEANALYTICSID=" + googleAnalyticsID : "Environment variable, \"GOOGLEANALYTICSID\", has not been assigned. Google Anlytics will not be used.");
+console.log(adsterra728x90Key ? "ADSTERRA728X90KEY=" + adsterra728x90Key : "Environment variable, \"ADSTERRA728X90KEY\", has not been assigned. adsterra728x90 will not be used.");
 
 var db = {
     games: {
@@ -417,17 +422,31 @@ var modules = {
     styles: function () {
         return `<link href="/s/styles.css" rel="stylesheet" type="text/css" />`;
     },
+    ad: function () {
+        return adsterra728x90Key ? `<hr><p><i>Theses ads help support the site:</i></p>
+        <script type="text/javascript">
+            atOptions = {
+                'key' : '${adsterra728x90Key}',
+                'format' : 'iframe',
+                'height' : 90,
+                'width' : 728,
+                'params' : {}
+            };
+            document.write('<scr' + 'ipt type="text/javascript" src="http' + (location.protocol === 'https:' ? 's' : '') + '://www.bcloudhost.com/${adsterra728x90Key}/invoke.js"></scr' + 'ipt>');
+        </script>
+        <p>To better support the site, consider subscribing to our <a href="https://www.patreon.com/ClaytonDoesThings">Patreon</a>.</p>` : '';
+    },
     topNav: function () {
         return `
-            <!-- Global site tag (gtag.js) - Google Analytics -->
-            <script async src="https://www.googletagmanager.com/gtag/js?id=UA-113986935-1"></script>
+            ${googleAnalyticsID ? `<!-- Global site tag (gtag.js) - Google Analytics -->
+            <script async src="https://www.googletagmanager.com/gtag/js?id=${googleAnalyticsID}"></script>
             <script>
                 window.dataLayer = window.dataLayer || [];
                 function gtag(){dataLayer.push(arguments);}
                 gtag('js', new Date());
 
-                gtag('config', 'UA-113986935-1');
-            </script>
+                gtag('config', '${googleAnalyticsID}');
+            </script>` : ''}
             
             <ul class="horizontal-list">
                 <li><a href="/w/home">Home</a></li>
@@ -555,7 +574,8 @@ app.get(["/", "/w", "/w/home"], (req, res) => {
                 }
             )()}
             </div>
-        `,
+        ` +
+        modules.ad(),
         "Home | Clayton Does Things XYZ"
     ));
 });
@@ -578,7 +598,8 @@ app.get(["/w/games", "/w/software"], (req, res) => {
                     return r;
                 })()}
             </ul>
-        `,
+        ` +
+        modules.ad(),
         `${typeStylized} | Clayton Does Things XYZ`
     ));
 });
@@ -619,7 +640,8 @@ app.get(["/w/games/:id", "/w/software/:id"], (req, res) => {
                         ""
                     }
                 </div>
-            `,
+            ` +
+            modules.ad(),
             `${item.title} | ${type.charAt(0).toUpperCase() + type.slice(1)} - Clayton Does Things XYZ`
         ));
     } else {
@@ -645,7 +667,8 @@ app.get(["/w/games/:id/:platform", "/w/games/:id/:platform/index.html", "/w/soft
                             fs.readFileSync(basePath + ".head", "utf8"),
                             modules.topNav() +
                             `<h1><u><a href="/w/${type}/${req.params.id}">${item.title}</a></u></h1>${urlVars.version ? `<p class="subtext">You are currently viewing a specific version of this program. Thefore, this link my not be up-to-date. To always have the latest version, go <a href="/w/${type}/${req.params.id}/${req.params.platform}/index.html">here</a>.</p>` : ""}<p>${item.desc}</p><hr>` +
-                            fs.readFileSync(basePath + ".body", "utf8"),
+                            fs.readFileSync(basePath + ".body", "utf8") +
+                            modules.ad(),
                             `${item.title} ${req.params.platform.charAt(0).toUpperCase() + req.params.platform.slice(1)}${urlVars.version ? `[${urlVars.version}]` : ""} | ${type.charAt(0).toUpperCase() + type.slice(1)} - Clayton Does Things XYZ`
                         ));
                     } else {
