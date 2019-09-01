@@ -7,8 +7,12 @@ const port = process.env.PORT || 8080;
 const googleAnalyticsID = process.env.GOOGLEANALYTICSID || false;
 const adsterra728x90Key = process.env.ADSTERRA728X90KEY || false;
 
-console.log(googleAnalyticsID ? "GOOGLEANALYTICSID=" + googleAnalyticsID : "Environment variable, \"GOOGLEANALYTICSID\", has not been assigned. Google Anlytics will not be used.");
-console.log(adsterra728x90Key ? "ADSTERRA728X90KEY=" + adsterra728x90Key : "Environment variable, \"ADSTERRA728X90KEY\", has not been assigned. adsterra728x90 will not be used.");
+if (process.env.LOGKEYS && !process.env.LOGKEYS) {
+    console.log(googleAnalyticsID ? "GOOGLEANALYTICSID=" + googleAnalyticsID : "Environment variable, \"GOOGLEANALYTICSID\", has not been assigned. Google Anlytics will not be used.");
+    console.log(adsterra728x90Key ? "ADSTERRA728X90KEY=" + adsterra728x90Key : "Environment variable, \"ADSTERRA728X90KEY\", has not been assigned. adsterra728x90 will not be used.");
+} else {
+    console.log("Logging keys has been disabled.")
+}
 
 var db = {
     games: {
@@ -413,7 +417,6 @@ for (let i in legacyRoutes) {
     _legacyRoutes.push(legacyRoutes[i][0])
     _legacyRoutes.push(legacyRoutes[i][0] + "/*");
 }
-console.log(_legacyRoutes);
 
 var modules = {
     favicon: function () {
@@ -730,5 +733,5 @@ app.use(function (req, res, next) {
 })
 
 app.listen(port, () => {
-    console.log(`Example app listening on port ${port}!`);
+    console.log(`App listening on port ${port}!`);
 });
