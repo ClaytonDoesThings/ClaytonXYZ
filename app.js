@@ -436,6 +436,16 @@ var modules = {
     styles: function () {
         return `<link href="/s/styles.css" rel="stylesheet" type="text/css" />`;
     },
+    getUrlParam: function () {
+        return `<script>
+            function getUrlParam(name) {
+                name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+                var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+                var results = regex.exec(location.search);
+                return results === null ? '' : decodeURIComponent(results[1].replace(/\\+/g, ' '));
+            };
+        </script>`;
+    },
     firebase: function () {
         return `
         <!-- The core Firebase JS SDK is always required and must be listed first -->
@@ -625,24 +635,59 @@ app.get(["/", "/w", "/w/home"], (req, res) => {
         modules.topNav() +
         `
             <div style="width:60%; margin-left:auto; margin-right:auto; text-align:center;">
-            <h1 align="center"><b><u>Home</u></b></h1>
-            <p align="center">Welcome to the homepage of Clayton Does Things!</p>
-            <hr/>
-            <p>Remember to follow our socials!</p>
-            ${(
-                function () {
-                    let r = "";
-                    for (let i in db.socials) {
-                        r += `<a href="${db.socials[i].href}" target="_blank"><img alt="${db.socials[i].title}" src="/s/logos/${db.socials[i].title}-logo-color.png" style="margin: 6px; height: 50px"/></a>`;
+                <h1 align="center"><b><u>Home</u></b></h1>
+                <p align="center">Welcome to the homepage of Clayton Does Things!</p>
+                <hr/>
+                <p>Remember to follow our socials!</p>
+                ${(
+                    function () {
+                        let r = "";
+                        for (let i in db.socials) {
+                            r += `<a href="${db.socials[i].href}" target="_blank"><img alt="${db.socials[i].title}" src="/s/logos/${db.socials[i].title}-logo-color.png" style="margin: 6px; height: 50px"/></a>`;
+                        }
+                        return r;
                     }
-                    return r;
-                }
-            )()}
+                )()}
             </div>
         ` +
         modules.ad(),
         "Home | Clayton Does Things XYZ"
     ));
+});
+
+app.get('/w/user', (req, res) => {
+    if (req.query.uid) {
+        firebaseAdmin.auth().getUser(req.query.uid).then((user)=> {
+            res.send(htmlPage(
+                modules.favicon() +
+                modules.styles() +
+                modules.getUrlParam(),
+                modules.topNav() + `
+                    <div style="width:60%; margin-left:auto; margin-right:auto; text-align:center;">
+                        <h1 align="center"><b><u>${user.displayName}</b></u></h1>
+
+                        <div id="signOut" style="display: none">
+                            <input type="button" onClick="firebase.auth().signOut()" value="Sign Out"/>
+                        </div>
+
+                        <script>
+                            firebase.auth().onAuthStateChanged((user) => {
+                                let sameUser = (user && user.uid === getUrlParam("uid"));
+                                let display = (sameUser ? 'block' : 'none');
+                                
+                                document.getElementById("signOut").style.display = display;
+                            });
+                        </script>
+                    </div>
+                `,
+                `${user.displayName} | Users - Clayton Does Things XYZ`
+            ));
+        }).catch((err) => {
+            res.status(404).send(err);
+        });
+    } else {
+        res.status(404).send("A UID is required to view a user page.");
+    }
 });
 
 app.get(["/w/games", "/w/software"], (req, res) => {
