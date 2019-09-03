@@ -2,6 +2,17 @@ const express = require('express'),
     path = require("path");
     fs = require("fs");
 
+const firebaseAdmin = process.env.FIREBASEADMINSERVICEACCOUNT ? require('firebase-admin') : false;
+
+if (firebaseAdmin) {
+    firebaseAdmin.initializeApp({
+        credential: firebaseAdmin.credential.cert(JSON.parse(process.env.FIREBASEADMINSERVICEACCOUNT)),
+        databaseURL: "https://claytonxyz-efca4.firebaseio.com"
+    });
+} else {
+    console.warn("No Firebase Admin Service Account passed through. It will be disabled.")
+}
+
 const app = express();
 const port = process.env.PORT || 8080;
 const googleAnalyticsID = process.env.GOOGLEANALYTICSID || false;
@@ -11,7 +22,7 @@ if (process.env.LOGKEYS && !process.env.LOGKEYS) {
     console.log(googleAnalyticsID ? "GOOGLEANALYTICSID=" + googleAnalyticsID : "Environment variable, \"GOOGLEANALYTICSID\", has not been assigned. Google Anlytics will not be used.");
     console.log(adsterra728x90Key ? "ADSTERRA728X90KEY=" + adsterra728x90Key : "Environment variable, \"ADSTERRA728X90KEY\", has not been assigned. adsterra728x90 will not be used.");
 } else {
-    console.log("Logging keys has been disabled.")
+    console.warn("Logging keys has been disabled.");
 }
 
 var db = {
@@ -425,6 +436,30 @@ var modules = {
     styles: function () {
         return `<link href="/s/styles.css" rel="stylesheet" type="text/css" />`;
     },
+    firebase: function () {
+        return `
+        <!-- The core Firebase JS SDK is always required and must be listed first -->
+        <script src="https://www.gstatic.com/firebasejs/6.5.0/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/6.5.0/firebase-auth.js"></script>
+        
+        <!-- TODO: Add SDKs for Firebase products that you want to use
+             https://firebase.google.com/docs/web/setup#config-web-app -->
+        
+        <script>
+          // Your web app's Firebase configuration
+          var firebaseConfig = {
+            apiKey: "AIzaSyD3HpP6KJ-Sh6hZKFbubebsFhVCIfcY5Q0",
+            authDomain: "claytonxyz-efca4.firebaseapp.com",
+            databaseURL: "https://claytonxyz-efca4.firebaseio.com",
+            projectId: "claytonxyz-efca4",
+            storageBucket: "",
+            messagingSenderId: "266944563951",
+            appId: "1:266944563951:web:80875db3f08628bb"
+          };
+          // Initialize Firebase
+          firebase.initializeApp(firebaseConfig);
+        </script>`;
+    },
     ad: function () {
         return adsterra728x90Key ? `<hr><p><i>Theses ads help support the site:</i></p>
         <script type="text/javascript">
@@ -440,7 +475,7 @@ var modules = {
         <p>To better support the site, consider subscribing to our <a href="https://www.patreon.com/ClaytonDoesThings">Patreon</a>.</p>` : '';
     },
     topNav: function () {
-        return `
+        return (firebaseAdmin ? modules.firebase() : '') + `
             ${googleAnalyticsID ? `<!-- Global site tag (gtag.js) - Google Analytics -->
             <script async src="https://www.googletagmanager.com/gtag/js?id=${googleAnalyticsID}"></script>
             <script>
@@ -455,6 +490,33 @@ var modules = {
                 <li><a href="/w/home">Home</a></li>
                 <li><a href="/w/games">Games</a></li>
                 <li><a href="/w/software">Tools & Software</a></li>
+                ${firebaseAdmin ?
+                    `<li id="user" style="float: right;"><a href="/w/user"></a></li>
+                    <li id="signIn" style="float: right;"><a onClick="signInWithGoogle()">Sign In</a></li>
+                    <script>
+                        firebase.auth().onAuthStateChanged((user) => {
+                            var userElem = document.getElementById("user");
+                            userElem.style.display = user ? 'block' : 'none';
+                            document.getElementById("signIn").style.display = user ? 'none' : 'block';
+
+                            if (user) {
+                                userElem.children[0].href = "/w/user?uid=" + user.uid;
+                                userElem.children[0].innerText = user.displayName;
+                            }
+                        });
+
+                        var googleProvider = new firebase.auth.GoogleAuthProvider();
+
+                        function signInWithGoogle() {
+                            firebase.auth().signInWithPopup(googleProvider).then(function(result) {
+                                console.log("User signed in!");
+                            }).catch(function(error) {
+                                console.error("Error occured during Google Sign In: " + error.message);
+                            });
+                        }
+                    </script>` :
+                    ''
+                }
                 ${(
                     function () {
                         let r = "";
