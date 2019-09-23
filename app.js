@@ -500,6 +500,7 @@ var modules = {
                 <li><a href="/w/home">Home</a></li>
                 <li><a href="/w/games">Games</a></li>
                 <li><a href="/w/software">Tools & Software</a></li>
+                <li><a href="/w/art">Art</a></li>
                 ${firebaseAdmin ?
                     `<li id="user" style="float: right;"><a href="/w/user"></a></li>
                     <li id="signIn" style="float: right;"><a onClick="signInWithGoogle()">Sign In</a></li>
@@ -655,7 +656,7 @@ app.get(["/", "/w", "/w/home"], (req, res) => {
     ));
 });
 
-app.get('/w/user', (req, res) => {
+app.get("/w/user", (req, res) => {
     if (req.query.uid) {
         firebaseAdmin.auth().getUser(req.query.uid).then((user)=> {
             res.send(htmlPage(
@@ -832,6 +833,27 @@ app.get(["/w/games/:id/:platform/*", "/w/software/:id/:platform/*"], (req, res) 
         console.log("Bad ID");
         res.redirect("/404");
     }
+})
+
+app.get("/w/art", (req, res) => {
+    res.send(htmlPage(
+        modules.favicon() +
+        modules.styles() +
+        modules.getUrlParam(),
+        modules.topNav() + ``
+    ));
+});
+
+app.get("/w/art/upload", (req, res) => {
+    res.send(htmlPage(
+        modules.favicon() +
+        modules.styles() +
+        modules.getUrlParam(),
+        `
+        <div id="">
+        </div>
+        `
+    ))
 })
 
 app.use(function (req, res, next) {
