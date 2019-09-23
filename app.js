@@ -358,7 +358,7 @@ var legacyRoutes = [
     ],
     [
         '/games/2HbTB1akfOrcKvPc3klU',
-        '/w/games/arc-plat'
+        '/w/games/arc-2'
     ],
     [
         '/games/SrfvRpIl5K2dvoQyaRDr',
