@@ -562,7 +562,7 @@ function pathToSitemap (path, freq, priority) {
     return (`<url><loc>https://claytondoesthings.xyz${path}</loc><changefreq>${freq}</changefreq><priority>${priority}</priority></url>`);
 }
 
-app.get(_legacyRoutes, (req, res) => {
+app.get(_legacyRoutes, async (req, res) => {
     console.log(`${req.ip} requested ${req.url} which is a legacy route. They were refered by ${req.get('Referrer')}`);
     let targetRoute = "";
     for (let i in _legacyRoutes) {
@@ -581,7 +581,7 @@ app.get(_legacyRoutes, (req, res) => {
     ));
 });
 
-app.get("/sitemap.xml", (req, res) => {
+app.get("/sitemap.xml", async (req, res) => {
     let r = `<?xml version="1.0" encoding="UTF-8"?>`;
     r += `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`;
     r += pathToSitemap("/w/home", "monthly", 1);
@@ -611,11 +611,11 @@ app.get("/sitemap.xml", (req, res) => {
     res.type("application/xml").send(r);
 });
 
-app.get("/favicon.ico", (req, res) => {
+app.get("/favicon.ico", async (req, res) => {
     res.sendFile(__dirname + "/s/favicon.ico");
 })
 
-app.get("/s/*", (req, res) => {
+app.get("/s/*", async (req, res) => {
     let p = `${__dirname}${req.url.replace("%20", ' ')}`;
     if (fs.existsSync(p)) {
         res.sendFile(p);
@@ -625,11 +625,11 @@ app.get("/s/*", (req, res) => {
     }
 });
 
-app.get("/404", (req, res) => {
+app.get("/404", async (req, res) => {
     res.sendFile("w/404.html", {root: __dirname});
 });
 
-app.get(["/", "/w", "/w/home"], (req, res) => {
+app.get(["/", "/w", "/w/home"], async (req, res) => {
     res.send(htmlPage(
         modules.favicon() +
         modules.styles(),
@@ -656,7 +656,7 @@ app.get(["/", "/w", "/w/home"], (req, res) => {
     ));
 });
 
-app.get("/w/user", (req, res) => {
+app.get("/w/user", async (req, res) => {
     if (req.query.uid) {
         firebaseAdmin.auth().getUser(req.query.uid).then((user)=> {
             res.send(htmlPage(
@@ -691,7 +691,7 @@ app.get("/w/user", (req, res) => {
     }
 });
 
-app.get(["/w/games", "/w/software"], (req, res) => {
+app.get(["/w/games", "/w/software"], async (req, res) => {
     var type = req.url.split("/")[2].toLowerCase();
     var typeStylized = type.charAt(0).toUpperCase() + type.slice(1);
     res.send(htmlPage(
@@ -715,7 +715,7 @@ app.get(["/w/games", "/w/software"], (req, res) => {
     ));
 });
 
-app.get(["/w/games/:id", "/w/software/:id"], (req, res) => {
+app.get(["/w/games/:id", "/w/software/:id"], async (req, res) => {
     var type = req.url.split("/")[2].toLowerCase();
     var item = db[type][req.params.id];
     if (item !== undefined) {
@@ -760,7 +760,7 @@ app.get(["/w/games/:id", "/w/software/:id"], (req, res) => {
     }
 });
 
-app.get(["/w/games/:id/:platform", "/w/games/:id/:platform/index.html", "/w/software/:id/:platform", "/w/software/:id/:platform/index.html"], (req, res) => {
+app.get(["/w/games/:id/:platform", "/w/games/:id/:platform/index.html", "/w/software/:id/:platform", "/w/software/:id/:platform/index.html"], async (req, res) => {
     var type = req.url.split("/")[2].toLowerCase();
     var item = db[type][req.params.id];
     var urlVars = req.query;
@@ -804,7 +804,7 @@ app.get(["/w/games/:id/:platform", "/w/games/:id/:platform/index.html", "/w/soft
     }
 });
 
-app.get(["/w/games/:id/:platform/*", "/w/software/:id/:platform/*"], (req, res) => {
+app.get(["/w/games/:id/:platform/*", "/w/software/:id/:platform/*"], async (req, res) => {
     var type = req.url.split("/")[2].toLowerCase();
     var item = db[type][req.params.id];
     var urlVars = req.query;
@@ -835,7 +835,7 @@ app.get(["/w/games/:id/:platform/*", "/w/software/:id/:platform/*"], (req, res) 
     }
 })
 
-app.get("/w/art", (req, res) => {
+app.get("/w/art", async (req, res) => {
     res.send(htmlPage(
         modules.favicon() +
         modules.styles() +
@@ -844,22 +844,110 @@ app.get("/w/art", (req, res) => {
     ));
 });
 
-app.get("/w/art/upload", (req, res) => {
+app.get("/w/art/upload/reference", async (req, res) => {
     res.send(htmlPage(
         modules.favicon() +
         modules.styles() +
         modules.getUrlParam(),
+        modules.topNav() +
+        `<script>
+            firebase.auth().onAuthStateChanged((user) => {
+                let rightUser = user.uid === "Cgz3bYFZPnQ8URrAIrOamkdcYz63";
+                document.getElementById("signedIn").style.display = rightUser ? "block" : "none";
+                document.getElementById("signedOut").style.display = rightUser ? "none" : "block";
+            });
+        </script>
+
+        <h2 align="center"><b><u>Upload Reference</u></b></h2>
+
+        <div id="signedIn" style="display: none;">
+            <script>
+                function uploadReference() {
+                    let files = document.getElementById("referenceFile").files;
+                    let errorMsg = "";
+                    if (files.length > 0) {
+                        let file = files[0];
+                        if (file.size <= 250000) {
+                            if (file.type === "image/png") {
+                                var reader = new FileReader();
+                                reader.onload = async () => {
+                                    console.log(file, reader.result);
+                                };
+                                reader.readAsBinaryString(file);
+                            } else {
+                                errorMsg += "image is not of correct type (png)\\n";
+                            }
+                        } else {
+                            errorMsg += "image is too large (<250KB)\\n";
+                        }
+                    }
+                }
+            </script>
+
+            <p align="center">Path: <input id="referencePath"/></p>
+            <p align="center">File: <input type="file" id="referenceFile"/><input type="button" value="Upload" onClick="uploadReference()"/></p>
+        </div>
+
+        <div id="signedOut" style="display: none;">
+            <p align="center">Uploading references is currently restricted to most users.</p>
+        </div>
         `
-        <div id="">
+    ));
+});
+
+app.get("/w/art/upload/art", async (req, res) => {
+    res.send(htmlPage(
+        modules.favicon() +
+        modules.styles() +
+        modules.getUrlParam(),
+        modules.topNav() +
+        `<script>
+            firebase.auth().onAuthStateChanged((user) => {
+                document.getElementById("signedIn").style.display = user ? "block" : "none";
+                document.getElementById("signedOut").style.display = user ? "none" : "block";
+            });
+        </script>
+
+        <div id="signedIn" style="display: none;">
+            <h2 align="center"><b><u>Upload Art</u></b></h2>
+
+            <script>
+                function referenceOrCreative() {
+                    let isReference = document.getElementById("referenceOrCreative").value === "reference";
+                    document.getElementById("byReference").style.display = isReference ? "block" : "none";
+                    document.getElementById("creative").style.display = isReference ? "none" : "block";
+                    return isReference;
+                }
+
+                function testReferencePath() {
+                    
+                }
+            </script>
+
+            <p align="center">By reference or creative? <select id="referenceOrCreative" onChange="referenceOrCreative()">
+                <option value="reference">By Reference</option>
+                <option value="creative">Creative</option>
+            </select></p>
+
+            <div id="byReference">
+                <p align="center">Reference Path: <input id="referencePath"/><input type="button" onclick="testReferencePath()" value="Test"/></p>
+            </div>
+
+            <div id="creative" style="display: none;">
+            </div>
+        </div>
+
+        <div id="signedOut" style="display: none;">
+            <h2 align="center"><b>Sign in to upload.</b></h2>
         </div>
         `
     ))
-})
+});
 
-app.use(function (req, res, next) {
+app.use(async function (req, res, next) {
     console.log(`${req.ip} attempted to reach non-existant resource: ${req.url}`);
     res.redirect("/404");
-})
+});
 
 app.listen(port, () => {
     console.log(`App listening on port ${port}!`);
