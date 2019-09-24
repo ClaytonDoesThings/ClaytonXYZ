@@ -3,12 +3,15 @@ const express = require('express'),
     fs = require("fs");
 
 const firebaseAdmin = process.env.FIREBASEADMINSERVICEACCOUNT ? require('firebase-admin') : false;
+var bucket = false;
 
 if (firebaseAdmin) {
     firebaseAdmin.initializeApp({
         credential: firebaseAdmin.credential.cert(JSON.parse(process.env.FIREBASEADMINSERVICEACCOUNT)),
-        databaseURL: "https://claytonxyz-efca4.firebaseio.com"
+        databaseURL: "https://claytonxyz-efca4.firebaseio.com",
+        storageBucket: "claytonxyz-efca4.appspot.com"
     });
+    bucket = firebaseAdmin.storage().bucket();
 } else {
     console.warn("No Firebase Admin Service Account passed through. It will be disabled.")
 }
@@ -844,6 +847,86 @@ app.get("/w/art", async (req, res) => {
     ));
 });
 
+app.post("/art/upload/reference", async (req, res) => {
+    var body = "";
+    req.on('data', chunk => {
+        body += chunk.toString()
+    });
+    req.on('end', () => {
+        let bodyJSON;
+        try {
+            bodyJSON = JSON.parse(body);
+        } catch (err) {
+            bodyJSON = {};
+        }
+
+        let checks = {
+            creditLink: typeof(bodyJSON.creditLink) === "string" &&
+                bodyJSON.creditLink.length < 100,
+            creditTitle: typeof(bodyJSON.creditTitle) === "string" &&
+                bodyJSON.creditTitle.length < 20,
+            description: typeof(bodyJSON.description) === "string" &&
+                bodyJSON.description.length < 500,
+            idToken: typeof(bodyJSON.idToken) === "string",
+            image: typeof(bodyJSON.image) === "string" &&
+                bodyJSON.image.length <= 250000,
+            path: typeof(bodyJSON.path) === "string",
+            title: typeof(bodyJSON.title) === "string" &&
+                bodyJSON.title.length < 20
+        };
+
+        var allChecksPass = true;
+        for (let i in checks) {
+            if (!checks[i]) {
+                allChecksPass = false;
+            }
+        }
+
+        if (allChecksPass) {
+            firebaseAdmin.auth().verifyIdToken(bodyJSON.idToken).then((user) => {
+                if (user.uid === "Cgz3bYFZPnQ8URrAIrOamkdcYz63") {
+                    let path = `./firebaseAdminUploadTemp`;
+                    let fPath = `${path}/${bodyJSON.path.replace(/\//, '_')}_${user.uid}${bodyJSON.title}.png`;
+                    fs.mkdir(path, {recursive: true}, (err) => {
+                        if (!err) {
+                            fs.writeFile(fPath, bodyJSON.image, (err) => {
+                                if (!err) {
+                                    bucket.upload(fPath, {}).then(() => {
+                                        fs.unlink(fPath, (err) => {
+                                            if (!err) {
+                                                res.end("ok");
+                                            } else {
+                                                console.error(err);
+                                                res.status(500).send("Failed to remove image from filesystem.");
+                                            }
+                                        });
+                                    }).catch((err) => {
+                                        console.error(err);
+                                        res.status(500).send("Failed to upload image to server.");
+                                    });
+                                } else {
+                                    console.error(err);
+                                    res.status(500).send("Error writing file for upload.");
+                                }
+                            });
+                        } else {
+                            console.error(err);
+                            res.status(500).send("Error creating temporary directory.");
+                        }
+                    });
+                } else {
+                    res.status(400).send("User not authenticated for this route.");
+                }
+            }).catch((err) => {
+                console.error(err);
+                res.status(500).send("Failedto verify user.");
+            });
+        } else {
+            res.status(400).send({msg: "One or more of these checks failed.", checks: checks});
+        }
+    });
+});
+
 app.get("/w/art/upload/reference", async (req, res) => {
     res.send(htmlPage(
         modules.favicon() +
@@ -852,7 +935,7 @@ app.get("/w/art/upload/reference", async (req, res) => {
         modules.topNav() +
         `<script>
             firebase.auth().onAuthStateChanged((user) => {
-                let rightUser = user.uid === "Cgz3bYFZPnQ8URrAIrOamkdcYz63";
+                let rightUser = (user && user.uid === "Cgz3bYFZPnQ8URrAIrOamkdcYz63");
                 document.getElementById("signedIn").style.display = rightUser ? "block" : "none";
                 document.getElementById("signedOut").style.display = rightUser ? "none" : "block";
             });
@@ -863,29 +946,94 @@ app.get("/w/art/upload/reference", async (req, res) => {
         <div id="signedIn" style="display: none;">
             <script>
                 function uploadReference() {
-                    let files = document.getElementById("referenceFile").files;
-                    let errorMsg = "";
-                    if (files.length > 0) {
-                        let file = files[0];
-                        if (file.size <= 250000) {
-                            if (file.type === "image/png") {
-                                var reader = new FileReader();
-                                reader.onload = async () => {
-                                    console.log(file, reader.result);
-                                };
-                                reader.readAsBinaryString(file);
+                    firebase.auth().currentUser.getIdToken(true).then((idToken) => {
+                        var error = false;
+                        var errorMsg = "";
+
+                        var payload = {
+                            idToken: idToken,
+                            path: document.getElementById("referencePath").value,
+                            title: document.getElementById("referenceTitle").value,
+                            image: undefined,
+                            description: document.getElementById("referenceDescription").value,
+                            creditTitle: document.getElementById("referenceCreditTitle").value,
+                            creditLink: document.getElementById("referenceCreditLink").value
+                        };
+
+                        if (payload.path.length > 0) {
+                            if (payload.title.length > 0) {
+                                if (payload.creditTitle.length > 0 || payload.creditLink.length > 0) {
+                                    let files = document.getElementById("referenceFile").files;
+                                    if (files.length > 0) {
+                                        let file = files[0];
+                                        if (file.size <= 250000) {
+                                            if (file.type === "image/png") {
+                                                var reader = new FileReader();
+                                                reader.onload = async () => {
+                                                    var xhr = new XMLHttpRequest();
+                                                    xhr.open("POST", "/art/upload/reference", true);
+                                                    xhr.setRequestHeader('Content-Type', "application/json");
+                                                    xhr.onreadystatechange = function () {
+                                                        console.log(this);
+                                                        if (this.readyState === 4 && this.status === 200) {;
+                                                            console.log(this.responseText);
+                                                        }
+                                                    }
+                                                    payload.image = reader.result;
+                                                    console.log(payload);
+                                                    xhr.send(JSON.stringify(payload));
+                                                };
+                                                reader.readAsBinaryString(file);
+                                            } else {
+                                                error = true;
+                                                errorMsg += "Image is not of correct type (png).";
+                                            }
+                                        } else {
+                                            error = true;
+                                            errorMsg += "Image is too large (<250KB).";
+                                        }
+                                    } else {
+                                        var xhr = new XMLHttpRequest();
+                                        xhr.open("POST", "/art/upload/reference", true);
+                                        xhr.setRequestHeader('Content-Type', "application/json");
+                                        xhr.onreadystatechange = function () {
+                                            console.log(this);
+                                            if (this.readyState === 4 && this.status === 200) {
+                                                console.log(this.responseText);
+                                            }
+                                        }
+                                        console.log(payload);
+                                        xhr.send(JSON.stringify(payload));
+                                    }
+                                } else {
+                                    error = true;
+                                    errorMsg += "Credit title or link is required.";
+                                }
                             } else {
-                                errorMsg += "image is not of correct type (png)\\n";
+                                error = true;
+                                errorMsg += "Title is required.";
                             }
                         } else {
-                            errorMsg += "image is too large (<250KB)\\n";
+                            error = true;
+                            errorMsg += "Path is required.";
                         }
-                    }
+
+                        if (error) {
+                            console.error(errorMsg);
+                        }
+                    }).catch((err) => {
+                        console.error("Error occured during authentication: ", err);
+                    });
                 }
             </script>
 
             <p align="center">Path: <input id="referencePath"/></p>
-            <p align="center">File: <input type="file" id="referenceFile"/><input type="button" value="Upload" onClick="uploadReference()"/></p>
+            <p align="center">Title: <input id="referenceTitle"/></p>
+            <p align="center">File: <input type="file" id="referenceFile"/></p>
+            <p align="center">Description: <input id="referenceDescription"/></p>
+            <p align="center">Credit Title: <input id="referenceCreditTitle"></p>
+            <p align="center">Credit Link: <input id="referenceCreditLink"></p>
+            <p align="center"><input type="button" value="Upload" onClick="uploadReference()"/></p>
         </div>
 
         <div id="signedOut" style="display: none;">

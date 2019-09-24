@@ -11,5 +11,5 @@ node ./app.js
 
 Bash (run.sh):
 ```
-FIREBASEADMINSERVICEACCOUNT=service credentials node ./app.js
+FIREBASEADMINSERVICEACCOUNT='service credentials' node ./app.js
 ```

@@ -90,3 +90,6 @@ typings/
 # Self-made run files
 run.sh
 run.bat
+
+# Temporary files
+firebaseAdminUploadTemp/
