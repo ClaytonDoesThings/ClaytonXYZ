@@ -1,5 +1,6 @@
 function setup() {
-  createCanvas(CanvasWidth, CanvasHight);
+  var c = createCanvas(CanvasWidth, CanvasHight);
+	c.parent('sketch-holder');
   fill(0)
 
   player = new playerObject()

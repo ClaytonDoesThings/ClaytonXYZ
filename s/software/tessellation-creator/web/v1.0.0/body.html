@@ -1,0 +1,15 @@
+<script src="/s/software/tessellation-creator/web/v1.0.0/p5.js"></script>
+<script src="/s/software/tessellation-creator/web/v1.0.0/classes.js"></script>
+<script src="/s/software/tessellation-creator/web/v1.0.0/globals.js"></script>
+<script src="/s/software/tessellation-creator/web/v1.0.0/handlers.js"></script>
+<script src="/s/software/tessellation-creator/web/v1.0.0/script.js"></script>
+<input type="number" id="sizeX" value="9" onChange='onSizeXChange()'/>sizeX<br/>
+<input type="number" id="sizeY" value="9" onChange='onSizeYChange()'/>sizeY<br/>
+<input type="checkbox" id="boxVisible" value="boxVisisble" onChange='onBoxVisibleChange()' unchecked/>Box Visisble<br/>
+<input type="number" id="pixelSize" value="10" onChange='onPixelSizeChange()'/>Pixel Size<br/>
+<input type="range" id="pixelSizeA" min="100" max ="200" value="120" onChange='onPixelSizeAChange()'/>Pixel Spacing<br/>
+color1(RGB): <input type="range" id="color1R" min="0" max="255" value="0" onChange="handleColorChange()"/><input type="range" id="color1G" min="0" max="255" value="242" onChange="handleColorChange()"/><input type="range" id="color1B" min="0" max="255" value="242" onChange="handleColorChange()"/><br/>
+color2(RGB): <input type="range" id="color2R" min="0" max="255" value="242" onChange="handleColorChange()"/><input type="range" id="color2G" min="0" max="255" value="0" onChange="handleColorChange()"/><input type="range" id="color2B" min="0" max="255" value="242" onChange="handleColorChange()"/><br/>
+color3(RGB): <input type="range" id="color3R" min="0" max="255" value="255" onChange="handleColorChange()"/><input type="range" id="color3G" min="0" max="255" value="255" onChange="handleColorChange()"/><input type="range" id="color3B" min="0" max="255" value="255" onChange="handleColorChange()"/><br/>
+color4(RGB): <input type="range" id="color4R" min="0" max="255" value="242" onChange="handleColorChange()"/><input type="range" id="color4G" min="0" max="255" value="242" onChange="handleColorChange()"/><input type="range" id="color4B" min="0" max="255" value="0" onChange="handleColorChange()"/><br/>
+<div id="sketch-holder"></div>

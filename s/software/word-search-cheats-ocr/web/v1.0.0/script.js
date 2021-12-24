@@ -3,7 +3,8 @@ function preload () {
 }
 
 function setup () {
-	createCanvas(400, 400);
+    var c = createCanvas(400, 400);
+    c.parent('sketch-holder');
 	sourceImg = loadImage(sourceImg, (loadedImage) => {
 		let w = loadedImage.width;
 		let h = loadedImage.height;

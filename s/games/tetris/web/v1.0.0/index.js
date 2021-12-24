@@ -6,7 +6,8 @@ window.addEventListener("keydown", function(e) {
 }, false);
 
 function setup() {
-	createCanvas(windowWidth, windowHeight);
+    var c = createCanvas(windowWidth, windowHeight);
+    c.parent('sketch-holder');
 }
 
 function windowResized() {

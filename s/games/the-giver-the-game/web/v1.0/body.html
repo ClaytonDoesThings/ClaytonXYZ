@@ -1,0 +1,14 @@
+<link rel="stylesheet" href="/s/games/the-giver-the-game/web/v1.0/TemplateData/style.css">
+<script src="/s/games/the-giver-the-game/web/v1.0/TemplateData/UnityProgress.js"></script>
+<script src="/s/games/the-giver-the-game/web/v1.0/Build/UnityLoader.js"></script>
+<script>
+    var gameInstance = UnityLoader.instantiate("gameContainer", "/s/games/the-giver-the-game/web/v1.0/Build/TheGiverTheGame-1.0-Web.json", {onProgress: UnityProgress});
+</script>
+<div class="webgl-content">
+    <div id="gameContainer" style="width: 960px; height: 600px; margin: auto"></div>
+    <div class="footer">
+        <div class="webgl-logo"></div>
+        <div class="fullscreen" onclick="gameInstance.SetFullscreen(1)"></div>
+        <div class="title">The Giver - The Game</div>
+    </div>
+</div>

@@ -1,28 +1,28 @@
 function preload() {
 	let fontsToLoad = {
 		Wingdings: {
-			fileName: "Wingdings-Repaired.ttf",
+			fileName: "/s/software/symbol-translator/web/v1.2.0/fonts/Wingdings-Repaired.ttf",
 			keyboardLayouts: {
 				abc: keyboardLayouts.abc,
 				qwerty: keyboardLayouts.qwerty
 			}
 		},
 		AlienText: {
-			fileName: "AlientextV2-Regular-fixed.ttf",
+			fileName: "/s/software/symbol-translator/web/v1.2.0/fonts/AlientextV2-Regular-fixed.ttf",
 			keyboardLayouts: {
 				abc: keyboardLayouts.abc,
 				qwerty: keyboardLayouts.qwerty
 			}
 		},
 		BirbText: {
-			fileName: "TenretniOlleh.ttf",
+			fileName: "/s/software/symbol-translator/web/v1.2.0/fonts/TenretniOlleh.ttf",
 			keyboardLayouts: {
 				abc: keyboardLayouts.abc,
 				qwerty: keyboardLayouts.qwerty
 			}
 		},
 		OldBirbText: {
-			fileName: "Birbtext20-Regular.ttf",
+			fileName: "/s/software/symbol-translator/web/v1.2.0/fonts/Birbtext20-Regular.ttf",
 			keyboardLayouts: {
 				abc: keyboardLayouts.abc,
 				qwerty: keyboardLayouts.qwerty
@@ -32,7 +32,7 @@ function preload() {
 
 	for (let i in fontsToLoad) {
 		fonts[i] = {
-			font: loadFont('fonts/' + fontsToLoad[i].fileName),
+			font: loadFont(fontsToLoad[i].fileName),
 			keyboardLayouts: fontsToLoad[i].keyboardLayouts,
 		};
 	}

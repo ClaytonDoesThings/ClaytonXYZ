@@ -1,0 +1,32 @@
+<script src="https://github.com/processing/p5.js/releases/download/0.6.1/p5.min.js"></script>
+<script src="https://github.com/processing/p5.js/releases/download/0.6.1/p5.dom.js"></script>
+
+<script>
+	function setup() {
+		var c = createCanvas(windowWidth, windowHeight);
+		c.parent('sketch-holder');
+		noLoop();
+	}
+</script>
+
+<script src="/s/software/legitimate-images-made-from-images/web/v1.0.0/globals.js"></script>
+<script src="/s/software/legitimate-images-made-from-images/web/v1.0.0/handlers.js"></script>
+fps (0=unlimited): <input type="number" name="fps" id="fps" onchange="handleFrameRateChange()" value="0" input/>
+<br/>
+subSize: <input type="number" name="subSize" id="subSize" onchange="handleSettingsChange()" value="10" input/>
+<br/>
+pixelPerfect: <input type="checkbox" name="pixelPerfect" id="pixelPerfect" onchange="handleSettingsChange()" unchecked/>
+
+<br/>
+
+Target Image: <input type="file" name="targetImage" id="targetImage" onchange="handleTargetImageChange()">
+<br/>
+Source Images: <input type="file" name="sourceImages" id="sourceImages" onchange="handleSourceImagesChange()" multiple>
+<br/>
+Source Images (Folder): <input type="file" name="sourceImagesF" id="sourceImagesF" onchange="handleSourceImagesChange('sourceImagesF')" webkitdirectory multiple>
+<br/>
+<input type="text" id="return"/>
+<br/>
+
+<script src="/s/software/legitimate-images-made-from-images/web/v1.0.0/index.js"></script>
+<div id="sketch-holder"></div>

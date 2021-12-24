@@ -1,0 +1,15 @@
+[package]
+name = "clayton_xyz"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+rocket = { version = "0.5.0-rc.1", features = ["tls"] }
+maud = { git = "https://github.com/mbr/maud", rev="d865649", features = ["rocket"]}
+dotenv = "0.15"
+lazy_static = "1.4"
+indexmap = "1.7"
+maplit = "1.0.2"
+chrono = "0.4"
