@@ -140,6 +140,14 @@ lazy_static! {
 
             // from alternate routes in old app.js
             "/w" => "/",
+
+            // weird pages Google indexed
+            "/w/software/word-search-cheats-ocr/web" => "/software/word-search-cheats-ocr/web",
+            "/w/games/arc-2/web" => "/games/arc-2/web",
+            "/w/games/tetris/web" => "/games/tetris/web",
+            "/w/games/carai/web" => "/games/carai/web",
+            "/w/games/the-giver-the-game/web" => "/games/the-giver-the-game/web",
+            "/w/software/symbol-translator/web" => "/software/symbol-translator/web",
         })
     };
 }
