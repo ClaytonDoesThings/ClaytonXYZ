@@ -18,7 +18,8 @@ use maud::{html, Markup};
 #[derive(Clone, Debug)]
 pub struct Product<'a> {
     pub title: &'a str,
-    pub description: &'a str,
+    pub desc_text: &'a str,
+    pub desc_markup: Option<Markup>,
     pub release_streams: IndexMap<&'a str, ReleaseStream<'a>>,
     pub last_update: NaiveDateTime
 }
@@ -67,12 +68,21 @@ pub fn product_page(config: &State<Config>, title_affix: &str, category: &str, p
     page(
         config,
         format!("{}{}", product.title, title_affix).as_str(),
-        product.description,
+        product.desc_text,
         format!("/{}/{}", category, product_id).as_str(),
         Some(format!("/{}", category).as_str()),
     html!{
         h1 { b { u { (product.title) } } }
-        p { (product.description) }
+        div {
+            @match product.desc_markup.clone() {
+                Some(desc_markup) => {
+                    (desc_markup)
+                },
+                None => {
+                    p { (product.desc_text) }
+                },
+            }
+        }
         
         hr;
 
@@ -158,7 +168,7 @@ async fn try_release_web_page_render(config: &State<Config>, title_affix: &str, 
         } else {
             format!("{}[{}]{}", product.title, stream.title, title_affix)
         }.as_str(),
-        product.description,
+        product.desc_text,
         if specific_release {
             format!("/{}/{}/{}/{}", category, product_id, stream_id, release_id)
         } else {

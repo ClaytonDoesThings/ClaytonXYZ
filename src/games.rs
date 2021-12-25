@@ -14,7 +14,8 @@ lazy_static! {
         hashmap!{
             "arc-2" => Product {
                 title: "Arc 2",
-                description: "Endless Arcade Game. You need to press A+D (at the same exact time) for the game to actually start. The goal of the game is to get the highest score. To gain score, collect purple squares or clear a stage by hitting a pink square. You have two minutes to get as many points and stage clears as possible. To submit your score (only if using the CDT branch - currently), type your name in the box below the main player and hit \"Submit High Score\".",
+                desc_text: "Endless Arcade Game. You need to press A+D (at the same exact time) for the game to actually start. The goal of the game is to get the highest score. To gain score, collect purple squares or clear a stage by hitting a pink square. You have two minutes to get as many points and stage clears as possible. To submit your score (only if using the CDT branch - currently), type your name in the box below the main player and hit \"Submit High Score\".",
+                desc_markup: None,
                 release_streams: indexmap!{
                     "web-cdt" => ReleaseStream {
                         title: "Web - CDT Fork",
@@ -37,7 +38,8 @@ lazy_static! {
             },
             "arc-plat" => Product {
                 title: "Arc Plat",
-                description: "Endless Arcade Game",
+                desc_text: "Endless Arcade Game",
+                desc_markup: None,
                 release_streams: indexmap!{
                     "web" => ReleaseStream {
                         title: "Web",
@@ -55,7 +57,8 @@ lazy_static! {
             },
             "carai" => Product {
                 title: "CarAI",
-                description: "An AI made from scratch. Video showing the making and an explaination for how it works is here: https://youtu.be/jjhNab0bJgQ",
+                desc_text: "An AI made from scratch. Video showing the making and an explaination for how it works is here: https://youtu.be/jjhNab0bJgQ",
+                desc_markup: None,
                 release_streams: indexmap!{
                     "web" => ReleaseStream {
                         title: "Web",
@@ -94,7 +97,8 @@ lazy_static! {
             },
             "demonic-conquest" => Product {
                 title: "Demonic Conquest",
-                description: "The aim of this game is to gather the entire story of Dean Winchester. For that, you need to survive as much as you can. Of course, you'll need to feast on some souls. But nobody is giving their souls so easily - you must hide and sneak attack the people. Don't forget that you made a deal with a crossroad demon and the time has come to pay the price - that is, your own soul. The hellhounds especially didn't forget about the deal and they are itching to taste some bone. - created for Firetruck Game Jam",
+                desc_text: "The aim of this game is to gather the entire story of Dean Winchester. For that, you need to survive as much as you can. Of course, you'll need to feast on some souls. But nobody is giving their souls so easily - you must hide and sneak attack the people. Don't forget that you made a deal with a crossroad demon and the time has come to pay the price - that is, your own soul. The hellhounds especially didn't forget about the deal and they are itching to taste some bone. - created for Firetruck Game Jam",
+                desc_markup: None,
                 release_streams: indexmap!{
                     "web" => ReleaseStream {
                         title: "Web",
@@ -133,7 +137,8 @@ lazy_static! {
             },
             "dig-it" => Product {
                 title: "Dig It",
-                description: "!.... !:,. !:,. !:.. !:, :::::,... ::::,.. ::::,.. :::::::::,.... !,... :::::::::,.. !::. !:,. !:. !: ! !:. !. !:, !:,. !.... !, !: !... !:, ::::,. !:: !::. !::.. - !, !:, - !:,. !.... !. - :::::::::,... !. !:, !:,. - !:,.... !. :::::::::,... !:, !, !:,. !. - !:,. !:. - !. !:,... !. !:.... - !. !:: !, !:, !:,. ::::,.",
+                desc_text: "!.... !:,. !:,. !:.. !:, :::::,... ::::,.. ::::,.. :::::::::,.... !,... :::::::::,.. !::. !:,. !:. !: ! !:. !. !:, !:,. !.... !, !: !... !:, ::::,. !:: !::. !::.. - !, !:, - !:,. !.... !. - :::::::::,... !. !:, !:,. - !:,.... !. :::::::::,... !:, !, !:,. !. - !:,. !:. - !. !:,... !. !:.... - !. !:: !, !:, !:,. ::::,.",
+                desc_markup: None,
                 release_streams: indexmap!{
                     "windows" => ReleaseStream {
                         title: "Windows",
@@ -148,7 +153,8 @@ lazy_static! {
             },
             "russian-roulette" => Product {
                 title: "Russian Roulette",
-                description: "Russian Roulette Controls: 1-6 to load the chambers and space to spin/fire",
+                desc_text: "Russian Roulette Controls: 1-6 to load the chambers and space to spin/fire",
+                desc_markup: None,
                 release_streams: indexmap!{
                     "web" => ReleaseStream {
                         title: "Web",
@@ -163,7 +169,8 @@ lazy_static! {
             },
             "tetris" => Product {
                 title: "Tetris",
-                description: "It's tetris**.",
+                desc_text: "It's tetris**.",
+                desc_markup: None,
                 release_streams: indexmap!{
                     "web" => ReleaseStream {
                         title: "Web",
@@ -178,7 +185,8 @@ lazy_static! {
             },
             "the-giver-the-game" => Product {
                 title: "The Giver - The Game",
-                description: "WASD to move. Press Left Shift to hide from the plane. To win, get to the end of the dirt path. Clayton Does Thing or claytondoesthings.xyz is in no way affiliated with \"The Giver\" or any other person(s) that were involved with the creation of \"The Giver\" in any way.",
+                desc_text: "WASD to move. Press Left Shift to hide from the plane. To win, get to the end of the dirt path. Clayton Does Thing or claytondoesthings.xyz is in no way affiliated with \"The Giver\" or any other person(s) that were involved with the creation of \"The Giver\" in any way.",
+                desc_markup: None,
                 release_streams: indexmap!{
                     "web" => ReleaseStream {
                         title: "Web",
