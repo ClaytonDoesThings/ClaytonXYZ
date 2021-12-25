@@ -40,7 +40,7 @@ struct PermanentRedirect {
 impl Handler for PermanentRedirect {
     async fn handle<'r>(&self, req: &'r Request<'_>, data: Data<'r>) -> Outcome<'r> {
         if self.old == req.uri().to_string() {
-            Outcome::from(req, Redirect::temporary(self.to.clone()))
+            Outcome::from(req, Redirect::permanent(self.to.clone()))
         } else {
             Outcome::Forward(data)
         }
