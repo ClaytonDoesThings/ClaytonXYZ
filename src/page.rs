@@ -32,6 +32,7 @@ pub fn page(config: &State<Config>, title: &str, description: &str, cannonical_p
                     (nav_element("Home", "/"))
                     (nav_element("Games", "/games"))
                     (nav_element("Software", "/software"))
+                    (nav_element("Blog", "/blog"))
                 }
                 main id="content" {
                     (content)

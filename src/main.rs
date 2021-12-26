@@ -84,6 +84,15 @@ fn sitemap(config: &State<Config>) -> Sitemap {
             (url("/", None, "daily", "1"))
             (product_category("/games", &GAMES))
             (product_category("/software", &SOFTWARE))
+            (url("/blog", None, "daily", "0.9"))
+            @for (post_id, post) in blog::POSTS.iter() {
+                (url(
+                    format!("/blog/{}", post_id).as_str(),
+                    post.last_update,
+                    "monthly",
+                    "0.8"
+                ))
+            }
         }
     })
 }
@@ -151,6 +160,8 @@ fn rocket() -> _ {
             software_page,
             software_stream_page,
             software_release_page,
+            blog::blog,
+            blog::blog_post,
         ])
         .mount("/s", FileServer::from(relative!("s"))) // would be nice to make  this cached
         .mount("/", LEGACY_REDIRECTS.as_routes())

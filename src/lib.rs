@@ -5,6 +5,7 @@ mod software;
 pub use software::SOFTWARE;
 mod legacy_redirects;
 pub use legacy_redirects::LEGACY_REDIRECTS;
+pub mod blog;
 
 pub struct Config {
     pub domain: String,
