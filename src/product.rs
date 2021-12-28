@@ -46,7 +46,7 @@ pub struct DownloadRelease<'a> {
     pub path: &'a str,
 }
 
-pub fn browse_page(config: &State<Config>, title: &str, category_title: &str, category: &str, products: &std::collections::HashMap<&str, Product>) -> Markup {
+pub fn browse_page(config: &State<Config>, title: &str, category_title: &str, category: &str, products: &IndexMap<&str, Product>) -> Markup {
     page(config, title, format!("Browse {} on Clayton Does Things", category_title.to_ascii_lowercase()).as_str(), format!("/{}", category).as_str(), Some(format!("/{}", category).as_str()), html! {
         h1 { b { u { (category_title) } } }
         ul id="product-list" {

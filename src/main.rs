@@ -11,6 +11,7 @@ use maud::{html, Markup, PreEscaped};
 use clayton_xyz::*;
 use chrono::naive::NaiveDateTime;
 use std::collections::HashMap;
+use indexmap::IndexMap;
 
 #[get("/favicon.ico")]
 async fn favicon() -> Option<NamedFile> {
@@ -34,7 +35,7 @@ fn sitemap(config: &State<Config>) -> Sitemap {
         }
     };
 
-    let product_category = |category_path: &str, products: &HashMap<&str, product::Product>| -> Markup {
+    let product_category = |category_path: &str, products: &IndexMap<&str, product::Product>| -> Markup {
         html!{
             (url(category_path, None, "daily", "0.9"))
             @for (product_id, product) in products.iter() {

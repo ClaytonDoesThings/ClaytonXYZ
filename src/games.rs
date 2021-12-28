@@ -1,16 +1,15 @@
 use crate::product::*;
 use lazy_static::lazy_static;
-use std::collections::HashMap;
-use maplit::hashmap;
 use indexmap::{
     indexmap,
+    IndexMap,
 };
 use chrono::naive::NaiveDateTime;
 
-pub type Games<'a> = HashMap<&'a str, Product<'a>>;
+pub type Games<'a> = IndexMap<&'a str, Product<'a>>;
 
 lazy_static! {
-    pub static ref GAMES: Games<'static> = hashmap!{
+    pub static ref GAMES: Games<'static> = indexmap!{
         "arc-2" => Product {
             title: "Arc 2",
             desc_text: "Endless Arcade Game. You need to press A+D (at the same exact time) for the game to actually start. The goal of the game is to get the highest score. To gain score, collect purple squares or clear a stage by hitting a pink square. You have two minutes to get as many points and stage clears as possible. To submit your score (only if using the CDT branch - currently), type your name in the box below the main player and hit \"Submit High Score\".",

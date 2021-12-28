@@ -1,17 +1,16 @@
 use crate::product::*;
 use lazy_static::lazy_static;
-use std::collections::HashMap;
-use maplit::hashmap;
 use indexmap::{
     indexmap,
+    IndexMap,
 };
 use chrono::naive::NaiveDateTime;
 use maud::html;
 
-pub type Software<'a> = HashMap<&'a str, Product<'a>>;
+pub type Software<'a> = IndexMap<&'a str, Product<'a>>;
 
 lazy_static! {
-    pub static ref SOFTWARE: Software<'static> = hashmap!{
+    pub static ref SOFTWARE: Software<'static> = indexmap!{
         "calculator-the-game-cheats" => Product {
             title: "Calculator: The Game - Cheats",
             desc_text: "Cheats for \"Calculator The Game\"",
