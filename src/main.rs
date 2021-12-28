@@ -10,8 +10,12 @@ use rocket::{
 use maud::{html, Markup, PreEscaped};
 use clayton_xyz::*;
 use chrono::naive::NaiveDateTime;
-use std::collections::HashMap;
 use indexmap::IndexMap;
+
+#[get("/robots.txt")]
+fn robotstxt(config: &State<Config>) -> String {
+    format!("User-agent: *\nAllow: /\nSitemap: {}/sitemap.xml", config.domain)
+}
 
 #[get("/favicon.ico")]
 async fn favicon() -> Option<NamedFile> {
@@ -151,6 +155,7 @@ fn rocket() -> _ {
     rocket::build()
         .mount("/", routes![
             index,
+            robotstxt,
             favicon,
             sitemap,
             games,
