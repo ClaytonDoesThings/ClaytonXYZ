@@ -1,5 +1,6 @@
 body {
     margin: 0px;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 h1 {
@@ -49,19 +50,7 @@ h4 a {
 }
 
 p {
-    font-family: Arial, Helvetica, sans-serif;
     margin: 8px;
-}
-
-p.subtext {
-    font-family: Arial, Helvetica, sans-serif;
-    color: grey;
-    font-size: 12px;
-    margin: 0px;
-}
-
-a {
-    font-family: Arial, Helvetica, sans-serif;
 }
 
 #nav {
