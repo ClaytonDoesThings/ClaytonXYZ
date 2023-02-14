@@ -1,5 +1,6 @@
 pub mod product;
 mod games;
+use dotenv::dotenv;
 pub use games::GAMES;
 mod software;
 pub use software::SOFTWARE;
@@ -17,10 +18,12 @@ pub struct Config {
 
 use aes::{
     Aes128,
-    NewBlockCipher,
-    cipher::generic_array::GenericArray,
+    cipher::{
+        generic_array::GenericArray,
+        KeyInit,
+    },
 };
 
 lazy_static! {
-    pub static ref CIPHER: Aes128 = Aes128::new(GenericArray::from_slice("key".as_bytes()));
+    pub static ref CIPHER: Aes128 = Aes128::new(&GenericArray::from(dotenv::var("EMAIL_VERIFICATION_KEY").expect("failed to get EMAIL_VERIFICATION_KEY env var").parse::<u128>().expect("failed to parse EMAIL_VERIFICATION_KEY as u128").to_be_bytes()));
 }

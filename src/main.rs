@@ -168,8 +168,8 @@ fn rocket() -> _ {
             software_release_page,
             blog::blog,
             blog::blog_post,
-            accounts::auth_page,
-            accounts::signup,
+            // accounts::auth_page,
+            // accounts::signup,
         ])
         .mount("/s", FileServer::from(relative!("s"))) // would be nice to make  this cached
         .mount("/", LEGACY_REDIRECTS.as_routes())

@@ -6,8 +6,8 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-rocket = { version = "0.5.0-rc.1", features = ["tls"] }
-maud = { git = "https://github.com/mbr/maud", rev="d865649", features = ["rocket"]}
+rocket = { version = "0.5.0-rc.2", features = ["tls"] }
+maud = { git = "https://github.com/tamc/maud", rev="857a4c8", features = ["rocket"]}
 dotenv = "0.15"
 lazy_static = "1.4"
 indexmap = "1.7"
@@ -17,4 +17,4 @@ pbkdf2 = "0.10"
 unicase = "2.6"
 regex = "1.5"
 validator = "0.14"
-aes = "0.7"
+aes = "0.8"

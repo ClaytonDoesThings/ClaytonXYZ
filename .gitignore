@@ -1,3 +1,6 @@
 old/
 target/
 .env
+.cargo
+Rocket.toml
+.history

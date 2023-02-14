@@ -28,8 +28,11 @@ use pbkdf2::{
     Pbkdf2,
 };
 use lazy_static::lazy_static;
-use std::collections::{
-    HashMap,
+use std::{
+    collections::{
+        HashMap,
+    },
+    sync::atomic::AtomicU64,
 };
 use maplit::hashmap;
 use unicase::UniCase;
@@ -38,10 +41,11 @@ use std::sync::Mutex;
 use aes::{
     Aes128,
     Block,
-    BlockEncrypt,
-    BlockCipher,
-    NewBlockCipher,
-    cipher::generic_array::GenericArray,
+    cipher::{
+        BlockEncrypt,
+        BlockDecrypt,
+        generic_array::GenericArray
+    },
 };
 
 #[get("/auth")]
@@ -57,6 +61,7 @@ pub fn auth_page(config: &State<Config>) -> Markup {
             br;
             input type="submit" value="Login";
         }
+        br;
         form action="/signup" method="POST" target="dummyframe" {
             label for="username" { "Username: " }
             input id="username" name="username";
@@ -67,6 +72,7 @@ pub fn auth_page(config: &State<Config>) -> Markup {
             label for="password" { "Password: " }
             input type="password" id="password" name="password";
             br;
+            span { "Please note that this authentication is more custom than I'd like. Do not reuse a password for this site until it gets a proper audit." }
             input type="submit" value="Sign Up";
         }
     })
@@ -105,7 +111,7 @@ pub async fn signup(signup_info: Form<SignupInfo>) -> Result<(), SignupError> {
         });
     }
 
-    let mut block = Block::from_slice(&[0]).clone();
+    let mut block = Block::from((EMAIL_VERIFICATION_TICKER.fetch_add(1, std::sync::atomic::Ordering::SeqCst) as u128).to_be_bytes()).clone();
     CIPHER.encrypt_block(&mut block);
     println!("{:?}", block);
 
@@ -171,7 +177,7 @@ lazy_static! {
 }
 
 lazy_static! {
-    pub static ref EMAIL_VERIFICATION_TICKER: Mutex<u64> = Mutex::new(0);
+    pub static ref EMAIL_VERIFICATION_TICKER: AtomicU64 = AtomicU64::new(0);
 }
 
 pub enum EmailVerificationPointer {

@@ -12,7 +12,7 @@ lazy_static! {
     pub static ref GAMES: Games<'static> = indexmap!{
         "arc-2" => Product {
             title: "Arc 2",
-            desc_text: "Endless Arcade Game. You need to press A+D (at the same exact time) for the game to actually start. The goal of the game is to get the highest score. To gain score, collect purple squares or clear a stage by hitting a pink square. You have two minutes to get as many points and stage clears as possible. To submit your score (only if using the CDT branch - currently), type your name in the box below the main player and hit \"Submit High Score\".",
+            desc_text: "Endless Arcade Game. You need to press A+D (at the same exact time) for the game to actually start. The goal of the game is to get the highest score. To gain score, collect purple squares or clear a stage by hitting a pink square. You have two minutes to get as many points and stage clears as possible. To submit your score (only if using the CDT branch - currently), type your name in the box below the main player and hit \"Submit High Score\". Note: this game was developed by Hayden Shuker, not Clayton Hickey.",
             desc_markup: None,
             release_streams: indexmap!{
                 "web-cdt" => ReleaseStream {
@@ -36,7 +36,7 @@ lazy_static! {
         },
         "arc-plat" => Product {
             title: "Arc Plat",
-            desc_text: "Endless Arcade Game",
+            desc_text: "Endless Arcade Game. Note: this game was developed by Hayden Shuker, not Clayton Hickey.",
             desc_markup: None,
             release_streams: indexmap!{
                 "web" => ReleaseStream {
