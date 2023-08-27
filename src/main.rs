@@ -4,7 +4,6 @@ use rocket::{
     fs::{
         NamedFile,
         FileServer,
-        relative,
     }
 };
 use maud::{html, Markup, PreEscaped};
@@ -19,7 +18,7 @@ fn robotstxt(config: &State<Config>) -> String {
 
 #[get("/favicon.ico")]
 async fn favicon() -> Option<NamedFile> {
-    NamedFile::open(relative!("s/favicon.ico")).await.ok()
+    NamedFile::open("./s/favicon.ico").await.ok()
 }
 
 #[derive(Responder)]
@@ -171,7 +170,7 @@ fn rocket() -> _ {
             // accounts::auth_page,
             // accounts::signup,
         ])
-        .mount("/s", FileServer::from(relative!("s"))) // would be nice to make  this cached
+        .mount("/s", FileServer::from("./s")) // would be nice to make  this cached
         .mount("/", LEGACY_REDIRECTS.as_routes())
         .manage(Config {
             domain: dotenv::var("DOMAIN").unwrap(),

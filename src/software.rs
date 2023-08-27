@@ -155,5 +155,37 @@ lazy_static! {
             },
             last_update: NaiveDateTime::from_timestamp(1640400117, 0)
         },
+        "cryptography_master" => Product {
+            title: "Cryptography Master",
+            desc_text: "Learn to solve cryptograms",
+            desc_markup: None,
+            release_streams: indexmap! {
+                "web" => ReleaseStream {
+                    title: "Web",
+                    releases: Releases::Web(indexmap!{
+                        "v0.1.0" => WebRelease {
+                            body: "s/software/cryptography_master/web/v0.1.0/index.html"
+                        },
+                    }),
+                },
+                "linux" => ReleaseStream {
+                    title: "Linux",
+                    releases: Releases::Download(indexmap!{
+                        "v0.1.0" => DownloadRelease {
+                            path: "s/software/cryptography_master/linux/v0.1.0/cryptography_master",
+                        },
+                    }),
+                },
+                "windows" => ReleaseStream {
+                    title: "Windows x64",
+                    releases: Releases::Download(indexmap!{
+                        "v0.1.0" => DownloadRelease {
+                            path: "s/software/cryptography_master/windows/v0.1.0/cryptography_master.exe",
+                        },
+                    }),
+                },
+            },
+            last_update: NaiveDateTime::from_timestamp(1678762805, 0)
+        }
     };
 }

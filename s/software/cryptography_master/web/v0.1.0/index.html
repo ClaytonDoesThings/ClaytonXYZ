@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<head>
+    <title>Cryptography Master</title>
+</head>
+
+<body>
+    <script type="module">
+        import init, { wasm_run } from "/s/software/cryptography_master/web/v0.1.0/cryptography_master.js";
+
+        async function run() {
+            await init();
+
+            wasm_run();
+        }
+
+        run();
+    </script>
+</body>
