@@ -13,8 +13,6 @@ rustPlatform.buildRustPackage rec {
         rev = version;
         sha256 = "1p3x4Q2PTrYrlwRl3T4U1jgbfeoWHkgXCmcs2agDyFQ=";
     };
-    buildInputs = with pkgs; [
-    ];
 
     cargoLock = {
         lockFile = ./Cargo.lock;
@@ -22,6 +20,12 @@ rustPlatform.buildRustPackage rec {
             "maud-0.24.0" = "sha256-czBOrReiiZqhBZbig6BPme0gflCYWWsaJjXkNL1iu6A=";
         };
     };
+
+    doCheck = false;
+
+    preFixup = ''
+        mv ./s $out/s
+    '';
 
     meta = {
         description = "Package for claytondoesthings.xyz";
