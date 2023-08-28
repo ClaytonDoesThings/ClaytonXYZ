@@ -6,7 +6,7 @@
 }:
 rustPlatform.buildRustPackage rec {
     pname = "ClaytonXYZ";
-    version = "a607f43a9ce9b7e67b491dda4811ad6a536e0639";
+    version = "ae2672119bd81fa1d85a36136504b0480cc52017";
     src = fetchFromGitHub {
         owner = "ClaytonDoesThings";
         repo = pname;
