@@ -6,12 +6,12 @@
 }:
 rustPlatform.buildRustPackage rec {
     pname = "ClaytonXYZ";
-    version = "ae2672119bd81fa1d85a36136504b0480cc52017";
+    version = "3f17e5cdad0c4a6e9f7a99f17e04c57a69ed035c";
     src = fetchFromGitHub {
         owner = "ClaytonDoesThings";
         repo = pname;
         rev = version;
-        sha256 = "sha256-LfvgUkMoxT6BjBg+t54faiw28417hvOoePjP+0qL4LQ=";
+        sha256 = "sha256-YwTk3i4z6TcwHy5IbbPN2bUOGcldrGRslYHRo3PiqUY=";
     };
 
     cargoLock = {
