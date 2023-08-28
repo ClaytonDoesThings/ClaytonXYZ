@@ -19,7 +19,7 @@ lazy_static! {
                     title: "Web - CDT Fork",
                     releases: Releases::Web(indexmap!{
                         "v1.0.2" => WebRelease {
-                            body: "s/games/arc-2/web-cdt/v1.0.2/index.body",
+                            body: "games/arc-2/web-cdt/v1.0.2/index.body",
                         },
                     })
                 },
@@ -27,7 +27,7 @@ lazy_static! {
                     title: "Web",
                     releases: Releases::Web(indexmap!{
                         "v1.0.2" => WebRelease {
-                            body: "s/games/arc-2/web/v1.0.2/index.body"
+                            body: "games/arc-2/web/v1.0.2/index.body"
                         },
                     })
                 },
@@ -43,10 +43,10 @@ lazy_static! {
                     title: "Web",
                     releases: Releases::Web(indexmap!{
                         "v1.1.1" => WebRelease {
-                            body: "s/games/arc-plat/web/v1.1.1/index.body",
+                            body: "games/arc-plat/web/v1.1.1/index.body",
                         },
                         "v1.1.2" => WebRelease {
-                            body: "s/games/arc-plat/web/v1.1.2/index.body",
+                            body: "games/arc-plat/web/v1.1.2/index.body",
                         },
                     })
                 },
@@ -62,7 +62,7 @@ lazy_static! {
                     title: "Web",
                     releases: Releases::Web(indexmap!{
                         "v1.0.0" => WebRelease {
-                            body: "s/games/carai/web/v1.0.0/index.body"
+                            body: "games/carai/web/v1.0.0/index.body"
                         },
                     })
                 },
@@ -70,7 +70,7 @@ lazy_static! {
                     title: "Windows",
                     releases: Releases::Download(indexmap!{
                         "v1.0.0" => DownloadRelease {
-                            path: "s/games/carai/windows/v1.0.0/CarAI-v1.0.0-Windows.zip",
+                            path: "games/carai/windows/v1.0.0/CarAI-v1.0.0-Windows.zip",
                         },
                     }),
                 },
@@ -78,7 +78,7 @@ lazy_static! {
                     title: "Mac",
                     releases: Releases::Download(indexmap!{
                         "v1.0.0" => DownloadRelease {
-                            path: "s/games/carai/mac/v1.0.0/CarAI-v1.0.0-MacOS.zip",
+                            path: "games/carai/mac/v1.0.0/CarAI-v1.0.0-MacOS.zip",
                         },
                     }),
                 },
@@ -86,7 +86,7 @@ lazy_static! {
                     title: "Linux",
                     releases: Releases::Download(indexmap!{
                         "v1.0.0" => DownloadRelease {
-                            path: "s/games/carai/linux/v1.0.0/CarAI-v1.0.0-Linux.zip",
+                            path: "games/carai/linux/v1.0.0/CarAI-v1.0.0-Linux.zip",
                         },
                     }),
                 },
@@ -102,7 +102,7 @@ lazy_static! {
                     title: "Web",
                     releases: Releases::Web(indexmap!{
                         "v0.1" => WebRelease {
-                            body: "s/games/demonic-conquest/web/v0.1/index.body",
+                            body: "games/demonic-conquest/web/v0.1/index.body",
                         },
                     }),
                 },
@@ -110,7 +110,7 @@ lazy_static! {
                     title: "Windows",
                     releases: Releases::Download(indexmap!{
                         "v0.1" => DownloadRelease {
-                            path: "s/games/demonic-conquest/windows/v0.1/DemonicConquest0.1PC.zip",
+                            path: "games/demonic-conquest/windows/v0.1/DemonicConquest0.1PC.zip",
                         },
                     }),
                 },
@@ -118,7 +118,7 @@ lazy_static! {
                     title: "Mac",
                     releases: Releases::Download(indexmap!{
                         "v0.1" => DownloadRelease {
-                            path: "s/games/demonic-conquest/mac/v0.1/DemonicConquest0.1Mac.zip",
+                            path: "games/demonic-conquest/mac/v0.1/DemonicConquest0.1Mac.zip",
                         },
                     }),
                 },
@@ -126,7 +126,7 @@ lazy_static! {
                     title: "Linux",
                     releases: Releases::Download(indexmap!{
                         "v0.1" => DownloadRelease {
-                            path: "s/games/demonic-conquest/linux/v0.1/DemonicConquest0.1Linux.zip",
+                            path: "games/demonic-conquest/linux/v0.1/DemonicConquest0.1Linux.zip",
                         },
                     }),
                 },
@@ -142,7 +142,7 @@ lazy_static! {
                     title: "Windows",
                     releases: Releases::Download(indexmap!{
                         "v1.2.2" => DownloadRelease {
-                            path: "s/games/dig-it/windows/v1.2.2/DigIt1.2.2PC.zip",
+                            path: "games/dig-it/windows/v1.2.2/DigIt1.2.2PC.zip",
                         },
                     }),
                 },
@@ -158,7 +158,7 @@ lazy_static! {
                     title: "Web",
                     releases: Releases::Web(indexmap!{
                         "v1.1.0" => WebRelease {
-                            body: "s/games/russian-roulette/web/v1.1.0/body.html",
+                            body: "games/russian-roulette/web/v1.1.0/body.html",
                         },
                     }),
                 },
@@ -174,7 +174,7 @@ lazy_static! {
                     title: "Web",
                     releases: Releases::Web(indexmap!{
                         "v1.0.0" => WebRelease {
-                            body: "s/games/tetris/web/v1.0.0/body.html",
+                            body: "games/tetris/web/v1.0.0/body.html",
                         },
                     }),
                 },
@@ -190,7 +190,7 @@ lazy_static! {
                     title: "Web",
                     releases: Releases::Web(indexmap!{
                         "v1.0" => WebRelease {
-                            body: "s/games/the-giver-the-game/web/v1.0/body.html",
+                            body: "games/the-giver-the-game/web/v1.0/body.html",
                         },
                     }),
                 },
@@ -198,7 +198,7 @@ lazy_static! {
                     title: "Linux",
                     releases: Releases::Download(indexmap!{
                         "v1.0" => DownloadRelease {
-                            path: "s/games/the-giver-the-game/linux64/v1.0/TheGiverTheGame-1.0-Linux64.zip",
+                            path: "games/the-giver-the-game/linux64/v1.0/TheGiverTheGame-1.0-Linux64.zip",
                         },
                     }),
                 },
@@ -206,7 +206,7 @@ lazy_static! {
                     title: "Windows x32",
                     releases: Releases::Download(indexmap!{
                         "v1.0" => DownloadRelease {
-                            path: "s/games/the-giver-the-game/windows32/v1.0/TheGiverTheGame-1.0-Windows32.zip",
+                            path: "games/the-giver-the-game/windows32/v1.0/TheGiverTheGame-1.0-Windows32.zip",
                         },
                     }),
                 },
@@ -214,7 +214,7 @@ lazy_static! {
                     title: "Windows x64",
                     releases: Releases::Download(indexmap!{
                         "v1.0" => DownloadRelease {
-                            path: "s/games/the-giver-the-game/windows64/v1.0/TheGiverTheGame-1.0-Windows64.zip",
+                            path: "games/the-giver-the-game/windows64/v1.0/TheGiverTheGame-1.0-Windows64.zip",
                         },
                     }),
                 },

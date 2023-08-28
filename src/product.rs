@@ -139,7 +139,7 @@ pub async fn try_stream_page(config: &State<Config>, title_affix: &str, category
         Releases::Download(releases) => {
             if releases.len() == 0 { return None }
             let (_, release) = releases.get_index(releases.len()-1)?;
-            Some(ReleasePageResponse::NamedFile(NamedFile::open(release.path).await.ok()?))
+            Some(ReleasePageResponse::NamedFile(NamedFile::open(config.static_dir.join(release.path)).await.ok()?))
         }
     }
 }
@@ -153,14 +153,14 @@ pub async fn try_release_page(config: &State<Config>, title_affix: &str, categor
         },
         Releases::Download(releases) => {
             let release = releases.get(release_id)?;
-            Some(ReleasePageResponse::NamedFile(NamedFile::open(release.path).await.ok()?))
+            Some(ReleasePageResponse::NamedFile(NamedFile::open(config.static_dir.join(release.path)).await.ok()?))
         }
     }
 }
 
 async fn try_release_web_page_render(config: &State<Config>, title_affix: &str, category: &str, product_id: &str, product: &Product<'_>, stream_id: &str, stream: &ReleaseStream<'_>, release_id: &str, release: &WebRelease<'_>, specific_release: bool) -> Option<Markup> {
     let mut body = Vec::new();
-    rocket::tokio::fs::File::open(release.body).await.ok()?.read_to_end(&mut body).await.ok()?;
+    rocket::tokio::fs::File::open(config.static_dir.join(release.body)).await.ok()?.read_to_end(&mut body).await.ok()?;
     Some(page(
         config,
         if specific_release {

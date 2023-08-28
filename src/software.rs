@@ -20,7 +20,7 @@ lazy_static! {
                     title: "Web",
                     releases: Releases::Web(indexmap!{
                         "v1.0" => WebRelease {
-                            body: "s/software/calculator-the-game-cheats/web/v1.0.html",
+                            body: "software/calculator-the-game-cheats/web/v1.0.html",
                         },
                     }),
                 },
@@ -36,7 +36,7 @@ lazy_static! {
                     title: "Web",
                     releases: Releases::Web(indexmap!{
                         "v1.0.0" => WebRelease {
-                            body: "s/software/comcode-translator/web/v1.0.0.html",
+                            body: "software/comcode-translator/web/v1.0.0.html",
                         },
                     }),
                 },
@@ -52,7 +52,7 @@ lazy_static! {
                     title: "Web",
                     releases: Releases::Web(indexmap!{
                         "v1.0.0" => WebRelease {
-                            body: "s/software/legitimate-images-made-from-images/web/v1.0.0/body.html",
+                            body: "software/legitimate-images-made-from-images/web/v1.0.0/body.html",
                         },
                     }),
                 },
@@ -68,10 +68,10 @@ lazy_static! {
                     title: "Web",
                     releases: Releases::Web(indexmap!{
                         "v1.1.2" => WebRelease {
-                            body: "s/software/symbol-translator/web/v1.1.2/body.html",
+                            body: "software/symbol-translator/web/v1.1.2/body.html",
                         },
                         "v1.2.0" => WebRelease {
-                            body: "s/software/symbol-translator/web/v1.2.0/body.html",
+                            body: "software/symbol-translator/web/v1.2.0/body.html",
                         },
                     }),
                 },
@@ -87,7 +87,7 @@ lazy_static! {
                     title: "Web",
                     releases: Releases::Web(indexmap!{
                         "v1.0.0" => WebRelease {
-                            body: "s/software/tessellation-creator/web/v1.0.0/body.html",
+                            body: "software/tessellation-creator/web/v1.0.0/body.html",
                         },
                     }),
                 },
@@ -103,7 +103,7 @@ lazy_static! {
                     title: "Web",
                     releases: Releases::Web(indexmap!{
                         "v1.0.0" => WebRelease {
-                            body: "s/software/word-search-cheats/web/v1.0.0.html",
+                            body: "software/word-search-cheats/web/v1.0.0.html",
                         },
                     }),
                 },
@@ -119,7 +119,7 @@ lazy_static! {
                     title: "Web",
                     releases: Releases::Web(indexmap!{
                         "v1.0.0" => WebRelease {
-                            body: "s/software/word-search-cheats-ocr/web/v1.0.0/body.html",
+                            body: "software/word-search-cheats-ocr/web/v1.0.0/body.html",
                         },
                     }),
                 },
@@ -140,7 +140,7 @@ lazy_static! {
                     title: "Linux",
                     releases: Releases::Download(indexmap!{
                         "v1.0.0" => DownloadRelease {
-                            path: "s/software/sound_galaxy/linux/sound_galaxy-v1.0.0-linux64",
+                            path: "software/sound_galaxy/linux/sound_galaxy-v1.0.0-linux64",
                         },
                     }),
                 },
@@ -148,7 +148,7 @@ lazy_static! {
                     title: "Windows x64",
                     releases: Releases::Download(indexmap!{
                         "v1.0.0" => DownloadRelease {
-                            path: "s/software/sound_galaxy/windows/sound_galaxy-v1.0.0-win64.exe",
+                            path: "software/sound_galaxy/windows/sound_galaxy-v1.0.0-win64.exe",
                         },
                     }),
                 },
@@ -164,7 +164,7 @@ lazy_static! {
                     title: "Web",
                     releases: Releases::Web(indexmap!{
                         "v0.1.0" => WebRelease {
-                            body: "s/software/cryptography_master/web/v0.1.0/index.html"
+                            body: "software/cryptography_master/web/v0.1.0/index.html"
                         },
                     }),
                 },
@@ -172,7 +172,7 @@ lazy_static! {
                     title: "Linux",
                     releases: Releases::Download(indexmap!{
                         "v0.1.0" => DownloadRelease {
-                            path: "s/software/cryptography_master/linux/v0.1.0/cryptography_master",
+                            path: "software/cryptography_master/linux/v0.1.0/cryptography_master",
                         },
                     }),
                 },
@@ -180,7 +180,7 @@ lazy_static! {
                     title: "Windows x64",
                     releases: Releases::Download(indexmap!{
                         "v0.1.0" => DownloadRelease {
-                            path: "s/software/cryptography_master/windows/v0.1.0/cryptography_master.exe",
+                            path: "software/cryptography_master/windows/v0.1.0/cryptography_master.exe",
                         },
                     }),
                 },
