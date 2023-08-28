@@ -14,6 +14,7 @@ use lazy_static::lazy_static;
 
 pub struct Config {
     pub domain: String,
+    pub static_dir: std::path::PathBuf,
 }
 
 use aes::{

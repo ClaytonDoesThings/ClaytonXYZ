@@ -10,6 +10,7 @@ use maud::{html, Markup, PreEscaped};
 use clayton_xyz::*;
 use chrono::naive::NaiveDateTime;
 use indexmap::IndexMap;
+use std::path::PathBuf;
 
 #[get("/robots.txt")]
 fn robotstxt(config: &State<Config>) -> String {
@@ -17,8 +18,8 @@ fn robotstxt(config: &State<Config>) -> String {
 }
 
 #[get("/favicon.ico")]
-async fn favicon() -> Option<NamedFile> {
-    NamedFile::open("./s/favicon.ico").await.ok()
+async fn favicon(config: &State<Config>) -> Option<NamedFile> {
+    NamedFile::open(config.static_dir.join("favicon.ico")).await.ok()
 }
 
 #[derive(Responder)]
@@ -151,6 +152,10 @@ async fn software_release_page(config: &State<Config>, product_id: &str, stream_
 
 #[launch]
 fn rocket() -> _ {
+    let config = Config {
+        domain: dotenv::var("DOMAIN").unwrap(),
+        static_dir: PathBuf::from(dotenv::var("STATIC_DIR").unwrap_or(String::from("./s"))),
+    };
     rocket::build()
         .mount("/", routes![
             index,
@@ -170,9 +175,7 @@ fn rocket() -> _ {
             // accounts::auth_page,
             // accounts::signup,
         ])
-        .mount("/s", FileServer::from("./s")) // would be nice to make  this cached
+        .mount("/s", FileServer::from(&config.static_dir)) // would be nice to make  this cached
         .mount("/", LEGACY_REDIRECTS.as_routes())
-        .manage(Config {
-            domain: dotenv::var("DOMAIN").unwrap(),
-        })
+        .manage(config)
 }
